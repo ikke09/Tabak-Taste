@@ -1,0 +1,35 @@
+{
+  "name": "tabak-taste-api",
+  "version": "1.0.0",
+  "description": "RESTful API for tabak-taste.de",
+  "main": "api.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ikke09/Tabak-Taste.git"
+  },
+  "keywords": [
+    "Rest",
+    "REST",
+    "API",
+    "Tabak",
+    "Tobacco",
+    "Taste",
+    "Geschmack",
+    "Shisha"
+  ],
+  "author": "Christian Bechtluft (ikke09)",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/ikke09/Tabak-Taste/issues"
+  },
+  "homepage": "https://github.com/ikke09/Tabak-Taste#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^14.3.2",
+    "express": "^4.17.2",
+    "mongoose": "^6.1.8"
+  }
+}
