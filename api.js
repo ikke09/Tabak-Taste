@@ -1,6 +1,9 @@
 require('dotenv').config();
 const express = require('express');
+const path = require('path');
 const app = express();
+const cors = require('cors');
+const helmet = require("helmet");
 const mongoose = require('mongoose');
 const { Tobacco } = require('./models/tobacco');
 
@@ -15,13 +18,13 @@ mongoose.connect(process.env.DB_CONNECTION, dbOptions, (error) => {
     else console.debug('DB connected!');
 });
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
   res.json({
       version: process.env.API_VERSION
   });
 });
 
-app.get('/tobaccos', (req, res) => {
+app.get('/api/tobaccos', (req, res) => {
 
     const findOptions = {};
     if(req.query) {
@@ -35,6 +38,14 @@ app.get('/tobaccos', (req, res) => {
         else res.json(data);
     });
 });
+
+app.use(cors());
+app.use(helmet());
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
+})
 
 app.listen(port, () => {
     console.debug(`API listening on Port ${port}`);
