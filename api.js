@@ -22,8 +22,17 @@ app.get('/', (req, res) => {
 });
 
 app.get('/tobaccos', (req, res) => {
-    Tobacco.find().then((data) => {
-        res.json(data);
+
+    const findOptions = {};
+    if(req.query) {
+        if(req.query.name) {
+            findOptions.name = {$regex: `${req.query.name}`}
+        }
+    }
+
+    Tobacco.find(findOptions, (err, data) => {
+        if(err) console.error(err);
+        else res.json(data);
     });
 });
 
