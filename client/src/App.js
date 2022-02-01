@@ -6,15 +6,16 @@ import Tobacco from './components/Tobacco';
 
 function App() {
 
-  const [api, setApi] = useState('/api/tobaccos?name=');
+  const baseApiUrl = '/api/tobaccos';
   const [query, setQuery] = useState("");
   const [tobaccos, setTobaccos] = useState([]);
 
   useEffect(() => {
-    console.log(query);
-    setApi(api.replace(new RegExp('name=.*', 'gi'), `name=${query}`));
-    console.log(api);
-    fetch(api)
+    if(!query || query === "") return;
+
+    const requestUrl = `${baseApiUrl}?name=${query}`;
+    console.log(requestUrl);
+    fetch(requestUrl)
       .then(res => res.json())
       .then(data => setTobaccos(data));
   }, [query]);
@@ -35,6 +36,7 @@ function App() {
         fullWidth
         id="input-query"
         label="Suche nach dem gewünschten Tabak"
+        helperText="Tabakname"
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -47,8 +49,8 @@ function App() {
         onChange={changeEvent => setQuery(changeEvent.target.value)}
       />
       {
-        tobaccos && tobaccos.length > 1
-        ? tobaccos.map(tobacco => <Tobacco model={tobacco} />)
+        tobaccos && tobaccos.length > 0
+        ? tobaccos.map(tobacco => <Tobacco key={tobacco._id} model={tobacco} />)
         : <p>No Data loaded yet!</p>
       }
   </Box>
