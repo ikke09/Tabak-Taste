@@ -12,26 +12,13 @@ export const themeOptions = createTheme({
   palette: {
     type: 'light',
     primary: {
-      main: '#4A1E9E',
-      light: '#BB98FF',
-    },
-    secondary: {
-      main: '#4CC9F0',
-    },
-    error: {
-      main: '#4f000b',
-    },
-    warning: {
-      main: '#ee8434',
-    },
-    success: {
-      main: '#292e1e',
-    },
-    info: {
-      main: '#aa8f66',
+      main: '#FE00DD',
+      shaddow: '#3B003E',
+      black: '#000000',
+      white: '#FFFFFF'
     },
     bg: {
-      main: '#fafafa',
+      main: '#6078c3',
     }
   },
 });
