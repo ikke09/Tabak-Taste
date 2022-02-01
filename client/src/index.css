@@ -1,3 +1,13 @@
+@font-face {
+  font-family: '8BIT WONDER';
+  src: url('fonts/8-BIT-WONDER.eot');
+  src: url('fonts/8-BIT-WONDER.eot?#iefix') format('embedded-opentype'),
+       url('fonts/8-BIT-WONDER.woff2') format('woff2'),
+       url('fonts/8-BIT-WONDER.woff') format('woff'),
+       url('fonts/8-BIT-WONDER.ttf')  format('truetype'),
+       url('fonts/8-BIT-WONDER.svg#8BIT WONDER') format('svg');
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +20,10 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+h1 {
+  font-family: '8BIT WONDER';
+  font-weight: Nominal;
+  font-size: 4em;
 }
