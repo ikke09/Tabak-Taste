@@ -17,6 +17,9 @@ export const themeOptions = createTheme({
       black: '#000000',
       white: '#FFFFFF'
     },
+    secondary: {
+      main: '#BFC0C0',
+    },
     bg: {
       main: '#6078c3',
     }
@@ -48,42 +51,33 @@ function App() {
           backgroundColor: 'bg.main',
         }} 
       >
-      <Grid
-        container
-        spacing={0}
-        direction="column"
-        alignItems="center"
-        justifyContent="flex-start"
-        flexWrap="nowrap"
-        style={{ minHeight: '100vh' }}
-      >
-        <Grid item xs={8}>
-          <Title />
-        </Grid>
-        <Grid 
-          item
+        <Grid
           container
           spacing={0}
           direction="column"
           alignItems="center"
-          justifyContent="center"
-          style={{ flexGrow: '1'}}
+          justifyContent="flex-start"
+          flexWrap="nowrap"
+          style={{ minHeight: '100vh', maxWidth: '80%', marginLeft: '10%' }}
         >
-          <Search data={query} handleChange={(event) => setQuery(event.target.value)} />
-        </Grid>
-        {
-          (tobaccos && tobaccos.length > 0)
-          && <Grid 
-              container
-              item
-              spacing={2}
-              direction="row"
-              alignItems="center"
-              justifyContent="center"
-              xs={8}>
-            <TobaccoList tobaccos={tobaccos} />
+          <Grid item xs={8}>
+            <Title />
           </Grid>
-        }
+          <Grid 
+            item
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justifyContent="center"
+            style={{ flexGrow: '1'}}
+          >
+            <Search data={query} handleChange={(event) => setQuery(event.target.value)} />
+          </Grid>
+          {
+            (tobaccos && tobaccos.length > 0)
+            && <TobaccoList tobaccos={tobaccos} />
+          }
         </Grid>
       </Box>
     </ThemeProvider>

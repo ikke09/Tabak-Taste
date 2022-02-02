@@ -4,7 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { styled } from '@mui/system';
 
 const StyledInput = styled(TextField)(({ theme }) => ({
-    boxShadow: `-0.1em -0.1em 0.6em 0.1em ${theme.palette.primary.main}, 0.1em 0.1em 0.6em 0.1em ${theme.palette.primary.main}`,
+    boxShadow: `-0.1em -0.1em 0.6em 0.1em ${theme.palette.primary.shaddow}, 0.1em 0.1em 0.6em 0.1em ${theme.palette.primary.shaddow}`,
     color: theme.palette.primary.black,
     border: `0.15em solid ${theme.palette.primary.black}`,
     borderRadius: '0.75em',
