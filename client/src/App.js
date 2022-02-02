@@ -46,7 +46,6 @@ function App() {
           width: '100vw',
           height: '100vh',
           backgroundColor: 'bg.main',
-          alignContent: 'center',
         }} 
       >
       <Grid
@@ -54,18 +53,34 @@ function App() {
         spacing={0}
         direction="column"
         alignItems="center"
-        justifyContent="center"
+        justifyContent="flex-start"
+        flexWrap="nowrap"
         style={{ minHeight: '100vh' }}
       >
-        <Grid item xs={3}>
+        <Grid item xs={8}>
           <Title />
         </Grid>
-        <Grid item xs={3}>
+        <Grid 
+          item
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+          style={{ flexGrow: '1'}}
+        >
           <Search data={query} handleChange={(event) => setQuery(event.target.value)} />
         </Grid>
-        { 
+        {
           (tobaccos && tobaccos.length > 0)
-          && <Grid item xs={3}>
+          && <Grid 
+              container
+              item
+              spacing={2}
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+              xs={8}>
             <TobaccoList tobaccos={tobaccos} />
           </Grid>
         }

@@ -3,8 +3,9 @@ import { styled } from '@mui/system';
 
 const StyledTitle = styled('h1')(({ theme }) => ({
     color: theme.palette.primary.main,
-    "-webkit-text-stroke": `4px ${theme.palette.primary.black}`,
-    "text-stroke": `4px ${theme.palette.primary.black}`,
+    WebkitTextStroke: `0.05em ${theme.palette.primary.black}`,
+    textStroke: `0.05em ${theme.palette.primary.black}`,
+    fontSize: '4em',
   }));
 
 export default function Title() {
