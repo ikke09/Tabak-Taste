@@ -1,49 +1,79 @@
 import React from 'react';
-import { Grid, Paper, Divider, Chip } from '@mui/material';
+import PropTypes from 'prop-types';
+import { Box, Card, CardContent, Divider, Grid, Typography, Chip } from '@mui/material';
+import { styled } from '@mui/system';
 
-const Tobacco = (props) => {
+const TobaccoCard = styled(Card)(({ theme }) => ({
+    backgroundColor: theme.palette.primary.card,
+    border: `1px solid black`,
+}));
+
+const TasteChip = styled(Chip)(({ theme }) => ({
+    backgroundColor: theme.palette.primary.highlight,
+}));
+
+const Tobacco = ({ model, ...rest }) => {
     return (
-        <Paper variant="elevation" elevation={3} style={{flexGrow: "1", backgroundColor: '#D3DAEE'}}>
-            <Grid 
-                container 
-                alignItems="flex-start"
-                justifyContent="space-between"
-                direction="column"
-            >
-                <Grid item>
-                    <h3>
-                        {props.model.name}
-                    </h3>
-                    <h5>
-                        {props.model.producer.name}
-                    </h5>
-                </Grid>
-                <Grid item>
-                    <Divider />
-                </Grid>
-                <Grid 
-                    container 
-                    item 
-                    alignItems="center"
-                    justifyContent="space-around"
-                    direction="row"
+        <TobaccoCard
+            elevation={3}
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                height: '50%'
+            }}
+            {...rest}
+        >
+            <CardContent>
+                <Typography
+                    align="center"
+                    color="textPrimary"
+                    gutterBottom
+                    variant="h3"
                 >
-                    { 
-                        props.model.tastes.map((taste, index) => {
-                            return (
-                                <Grid item key={index}>
-                                    <Chip
-                                        label={taste}
-                                        color="secondary"
-                                    />
-                                </Grid>
-                            );
-                        })
-                    }
-                </Grid>
+                    {model.name}
+                </Typography>
+                <Typography
+                    align="center"
+                    color="textPrimary"
+                    variant="h5"
+                >
+                    {model.producer.name}
+                </Typography>
+            </CardContent>
+            <Box sx={{ flexGrow: 1 }} />
+            <Divider color='black'/>
+            <Box sx={{ p: 2 }}>
+            <Grid
+                container
+                spacing={2}
+                sx={{ justifyContent: 'center' }}
+            >
+                { 
+                    model.tastes.map((taste, index) => {
+                        return (
+                            <Grid
+                                key={index}
+                                item
+                                sx={{
+                                    alignItems: 'center',
+                                    display: 'flex'
+                                }}
+                            >
+                                <TasteChip
+                                    label={taste}
+                                />
+                            </Grid>
+                        );
+                    })
+                }
             </Grid>
-        </Paper>
-    )
+          </Box>
+        </TobaccoCard>
+      );
 };
+
+Tobacco.propTypes = {
+    model: PropTypes.object.isRequired,
+}
 
 export default Tobacco;

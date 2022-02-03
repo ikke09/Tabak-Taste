@@ -12,17 +12,12 @@ export const themeOptions = createTheme({
   palette: {
     type: 'light',
     primary: {
-      main: '#FE00DD',
-      shaddow: '#3B003E',
-      black: '#000000',
-      white: '#FFFFFF'
+      main: '#FFFFFF',
+      title: '#FE00DD',
+      background: '#6078C3',
+      card: '#D8E9DC',
+      highlight: '#29E7CD'
     },
-    secondary: {
-      main: '#BFC0C0',
-    },
-    bg: {
-      main: '#6078c3',
-    }
   },
 });
 
@@ -48,7 +43,7 @@ function App() {
         sx={{
           width: '100vw',
           height: '100vh',
-          backgroundColor: 'bg.main',
+          backgroundColor: 'primary.background',
         }} 
       >
         <Grid

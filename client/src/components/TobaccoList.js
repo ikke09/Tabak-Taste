@@ -6,17 +6,21 @@ export default function TobaccoList(props) {
   return (
     <Grid 
       container
-      spacing={2}
-      direction="row"
-      alignItems="center"
-      justifyContent="space-around"
+      spacing={3}
+      justifyContent='center'
       style={{ flexGrow: '1'}}
     >           
       {
         props.tobaccos.map((tobacco) => {
           return (
-            <Grid item xs={4} key={tobacco._id}>
-              <Tobacco model={tobacco} />
+            <Grid 
+              item 
+              lg={4}
+              md={6}
+              xs={12} 
+              key={tobacco._id}
+            >
+                <Tobacco model={tobacco} />
             </Grid>)
         })
       }
