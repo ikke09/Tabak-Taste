@@ -25,17 +25,23 @@ function App() {
 
   const baseApiUrl = '/api/tobaccos';
   const [query, setQuery] = useState("");
-  const [tobaccos, setTobaccos] = useState([]);
+  const [alltobaccos, setAllTobaccos] = useState([]);
+  const [tobaccos, setTobaccos] = useState(alltobaccos);
 
   useEffect(() => {
-    if(!query || query === "") return;
-
-    const requestUrl = `${baseApiUrl}?name=${query}`;
-    console.log(requestUrl);
-    fetch(requestUrl)
+    fetch(baseApiUrl)
       .then(res => res.json())
-      .then(data => setTobaccos(data));
-  }, [query]);
+      .then(data => setAllTobaccos(data));
+  }, []);
+
+  useEffect(() => {
+    if(query) {
+      const queryRegEx = new RegExp(query, 'gi')
+      setTobaccos(
+        alltobaccos.filter(tobacco => queryRegEx.test(tobacco.name))
+      );
+    }
+  }, [query, alltobaccos])
   
   return (
     <ThemeProvider theme={themeOptions}>
@@ -67,7 +73,7 @@ function App() {
             justifyContent="center"
             style={{ flexGrow: '1'}}
           >
-            <Search data={query} handleChange={(event) => setQuery(event.target.value)} />
+            <Search data={query} handleChange={(event) => setQuery(event.target.value.trim())} />
           </Grid>
           {
             (tobaccos && tobaccos.length > 0)
