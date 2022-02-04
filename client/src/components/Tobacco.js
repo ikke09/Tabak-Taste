@@ -19,28 +19,31 @@ const Tobacco = ({ model, ...rest }) => {
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                height: '50%'
+                height: '50%',
+                minHeight: '200px'
             }}
             {...rest}
         >
-            <CardContent>
-                <Typography
-                    align="center"
-                    color="textPrimary"
-                    gutterBottom
-                    variant="h3"
-                >
-                    {model.name}
-                </Typography>
-                <Typography
-                    align="center"
-                    color="textPrimary"
-                    variant="h5"
-                >
-                    {model.producer.name}
-                </Typography>
-            </CardContent>
-            <Box sx={{ flexGrow: 1 }} />
+            <Box sx={{ flexGrow: 1 }} >
+                <CardContent>
+                    <Typography
+                        align="center"
+                        color="textPrimary"
+                        gutterBottom
+                        variant="h4"
+                        fontWeight='bold'
+                    >
+                        {model.name}
+                    </Typography>
+                    <Typography
+                        align="center"
+                        color="textPrimary"
+                        variant="h6"
+                    >
+                        {model.producer.name}
+                    </Typography>
+                </CardContent>
+            </Box>
             <Divider color='black'/>
             <Box sx={{ p: 2 }}>
             <Grid
