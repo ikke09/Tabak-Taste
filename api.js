@@ -29,7 +29,7 @@ app.get('/api/tobaccos', (req, res) => {
     const findOptions = {};
     if(req.query) {
         if(req.query.name) {
-            findOptions.name = {$regex: `${req.query.name}`}
+            findOptions.name = {$regex: `${req.query.name}`, $options: 'i'}
         }
     }
 
