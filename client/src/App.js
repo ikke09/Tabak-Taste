@@ -1,50 +1,43 @@
-import React, { useState, useEffect } from 'react';
+import React  from 'react';
 import { Box, Grid } from '@mui/material';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 
+import Theme from './themes/8Bit_Theme';
 import './App.css';
+
 import Title from './components/Title';
 import Search from './components/Search';
 import TobaccoList from './components/TobaccoList';
-
-
-export const themeOptions = createTheme({
-  palette: {
-    type: 'light',
-    primary: {
-      main: '#FFFFFF',
-      title: '#FE00DD',
-      background: '#6078C3',
-      card: '#D8E9DC',
-      highlight: '#29E7CD'
-    },
-  },
-});
+import useDebouncedSearch from './hooks/useDebouncedSearch';
+import SearchProgress from './components/SearchProgress';
 
 function App() {
 
   const baseApiUrl = '/api/tobaccos';
-  const [query, setQuery] = useState("");
-  const [alltobaccos, setAllTobaccos] = useState([]);
-  const [tobaccos, setTobaccos] = useState(alltobaccos);
 
-  useEffect(() => {
-    fetch(baseApiUrl)
-      .then(res => res.json())
-      .then(data => setAllTobaccos(data));
-  }, []);
+  const searchTobaccos = async(filter) => {
+    console.debug(`Searching for ${filter}`);
+    if(!filter || filter.length === 0) return [];
 
-  useEffect(() => {
-    if(query) {
-      const queryRegEx = new RegExp(query, 'gi')
-      setTobaccos(
-        alltobaccos.filter(tobacco => queryRegEx.test(tobacco.name))
-      );
+    const apiUrl = `${baseApiUrl}?name=${encodeURIComponent(filter)}`;
+    const response = await fetch(apiUrl);
+
+    if (response.status !== 200) {
+      throw new Error('Search failed with Status ' + response.status);
     }
-  }, [query, alltobaccos])
-  
+    
+    const json = await response.json();
+    return json;
+  }
+
+  const { 
+    inputText,
+    setInputText,
+    search 
+  } = useDebouncedSearch(searchTobaccos);
+
   return (
-    <ThemeProvider theme={themeOptions}>
+    <ThemeProvider theme={Theme}>
       <Box
         sx={{
           width: '100vw',
@@ -71,14 +64,12 @@ function App() {
             direction="column"
             alignItems="center"
             justifyContent="center"
-            style={{ flexGrow: '1'}}
+            style={{ flexGrow: !!inputText ? '0' : '1'}}
           >
-            <Search data={query} handleChange={(event) => setQuery(event.target.value.trim())} />
+            <Search data={inputText} handleChange={(event) => setInputText(event.target.value.trim())} />
           </Grid>
-          {
-            (tobaccos && tobaccos.length > 0)
-            && <TobaccoList tobaccos={tobaccos} />
-          }
+          { search.loading && <SearchProgress /> }
+          { (search.result && search.result.length > 0) && <TobaccoList tobaccos={search.result} /> }
         </Grid>
       </Box>
     </ThemeProvider>
