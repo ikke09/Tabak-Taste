@@ -20,7 +20,8 @@ const Tobacco = ({ model, ...rest }) => {
                 display: 'flex',
                 flexDirection: 'column',
                 height: '50%',
-                minHeight: '200px'
+                minHeight: '235px',
+                maxHeight: '235px'
             }}
             {...rest}
         >
