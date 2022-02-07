@@ -1,8 +1,9 @@
 import React from 'react';
 import Tobacco from './Tobacco';
 import { Grid } from '@mui/material';
+import PropTypes from 'prop-types';
 
-export default function TobaccoList(props) {
+function TobaccoList({tobaccos}) {
   return (
     <Grid 
       container
@@ -13,7 +14,7 @@ export default function TobaccoList(props) {
       marginTop="1em !important"
     >           
       {
-        props.tobaccos.map((tobacco) => {
+        tobaccos.map((tobacco) => {
           return (
             <Grid 
               item 
@@ -29,3 +30,9 @@ export default function TobaccoList(props) {
     </Grid>
   );
 }
+
+TobaccoList.propTypes = {
+  tobaccos: PropTypes.arrayOf(PropTypes.object).isRequired,
+}
+
+export default TobaccoList;
