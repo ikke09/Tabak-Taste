@@ -66,7 +66,7 @@ function App() {
             justifyContent="center"
             style={{ flexGrow: !!inputText ? '0' : '1'}}
           >
-            <Search data={inputText} handleChange={(event) => setInputText(event.target.value.trim())} />
+            <Search data={inputText} handleChange={(event) => setInputText(event.target.value.trim())} handleClear={() => setInputText('')} />
           </Grid>
           { search.loading && <SearchProgress /> }
           { (search.result && search.result.length > 0) && <TobaccoList tobaccos={search.result} /> }
