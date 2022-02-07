@@ -6,6 +6,7 @@ const StyledTitle = styled('h1')(({ theme }) => ({
     WebkitTextStroke: `0.05em black`,
     textStroke: `0.05em black`,
     fontSize: '4em',
+    textAlign: 'center',
   }));
 
 export default function Title() {
