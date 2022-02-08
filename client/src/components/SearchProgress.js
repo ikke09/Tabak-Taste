@@ -5,7 +5,7 @@ import { styled } from '@mui/system';
 
 const StyledProgress = styled(CircularProgress)(({ theme }) => ({
     color: theme.palette.primary.main,
-    marginTop: '1em',
+    marginTop: '1rem',
 }));
 
 export default function SearchProgress() {

@@ -10,6 +10,7 @@ const TobaccoCard = styled(Card)(({ theme }) => ({
 
 const TasteChip = styled(Chip)(({ theme }) => ({
     backgroundColor: theme.palette.primary.highlight,
+    fontSize: '0.8rem',
 }));
 
 const Tobacco = ({ model, ...rest }) => {

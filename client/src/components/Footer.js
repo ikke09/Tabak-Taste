@@ -5,7 +5,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { styled } from '@mui/system';
 
 const StyledFooter = styled(Grid)({
-    margin: '0.5em 0',
+    margin: '0.5rem 0',
     color: 'white',
 });
 

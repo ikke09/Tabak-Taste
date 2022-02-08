@@ -3,9 +3,9 @@ import { styled } from '@mui/system';
 
 const StyledTitle = styled('h1')(({ theme }) => ({
     color: theme.palette.primary.title,
-    WebkitTextStroke: `0.05em black`,
-    textStroke: `0.05em black`,
-    fontSize: '4em',
+    WebkitTextStroke: `0.05rem black`,
+    textStroke: `0.05rem black`,
+    fontSize: '4rem',
     textAlign: 'center',
   }));
 

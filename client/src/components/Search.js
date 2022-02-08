@@ -6,9 +6,9 @@ import { styled } from '@mui/system';
 import PropTypes from 'prop-types';
 
 const StyledInput = styled(TextField)(({ theme }) => ({
-    boxShadow: `-0.1em -0.1em 0.6em 0.1em ${theme.palette.primary.highlight}, 0.1em 0.1em 0.6em 0.1em ${theme.palette.primary.highlight}`,
-    border: `0.15em solid black`,
-    borderRadius: '0.75em',
+    boxShadow: `-0.1rem -0.1rem 0.6rem 0.1rem ${theme.palette.primary.highlight}, 0.1rem 0.1rem 0.6rem 0.1rem ${theme.palette.primary.highlight}`,
+    border: `0.15rem solid black`,
+    borderRadius: '0.75rem',
     width: '40%',
     minWidth: '300px',
     "& .MuiOutlinedInput-root": {
