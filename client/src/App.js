@@ -8,6 +8,7 @@ import './App.css';
 import Title from './components/Title';
 import Search from './components/Search';
 import TobaccoList from './components/TobaccoList';
+import Footer from './components/Footer';
 import useDebouncedSearch from './hooks/useDebouncedSearch';
 import SearchProgress from './components/SearchProgress';
 
@@ -69,7 +70,8 @@ function App() {
             <Search data={inputText} handleChange={(event) => setInputText(event.target.value)} handleClear={() => setInputText('')} />
           </Grid>
           { search.loading && <SearchProgress /> }
-          { (search.result && search.result.length > 0) && <TobaccoList tobaccos={search.result} /> }
+          { search.result && !!inputText && <TobaccoList tobaccos={search.result} /> }
+          <Footer />
         </Grid>
       </Box>
     </ThemeProvider>

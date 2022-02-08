@@ -1,6 +1,6 @@
 import React from 'react';
 import Tobacco from './Tobacco';
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
 function TobaccoList({tobaccos}) {
@@ -12,8 +12,11 @@ function TobaccoList({tobaccos}) {
       justifyContent='center'
       style={{ flexGrow: '1'}}
       marginTop="1em !important"
-    >           
+    > 
+      { tobaccos.length === 0
+        && <Typography variant='body1' color='primary'>Die Suche lieferte keine Ergebnisse...</Typography>}    
       {
+        tobaccos.length > 0 &&
         tobaccos.map((tobacco) => {
           return (
             <Grid 
