@@ -19,9 +19,8 @@ const Tobacco = ({ model, ...rest }) => {
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                height: '50%',
-                minHeight: '235px',
-                maxHeight: '235px',
+                minHeight: '280px',
+                maxHeight: '280px',
                 minWidth: '280px',
             }}
             {...rest}
