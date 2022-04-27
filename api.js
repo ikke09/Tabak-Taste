@@ -37,17 +37,25 @@ app.get('/api', (req, res) => {
   
 app.get('/api/tobaccos', (req, res) => {
 
-    const findOptions = {};
-    if(req.query) {
-        if(req.query.name) {
-            findOptions.name = {$regex: `${req.query.name}`, $options: 'i'}
-        }
+    if(!req.query || !req.query.search){
+        res.json([]);
+        return;
     }
+
+    const findOptions = {$or: []};
+    const searchParameter = req.query.search;
+    const nameOption = {name: {$regex: `${searchParameter}`, $options: 'i'}};
+    findOptions.$or.push(nameOption);
+    const producerNameOption = {'producer.name': {$regex: `${searchParameter}`, $options: 'i'}};
+    findOptions.$or.push(producerNameOption);
+    const tasteOption = { tastes: {$elemMatch: {$regex: `${searchParameter}`, $options: 'i'}}}
+    findOptions.$or.push(tasteOption);
 
     Tobacco.find(findOptions, (err, data) => {
         if(err) { 
             console.error(err);
-            return res.json([]);
+            res.json([]);
+            return;
         }
         
         const tobaccos = data.map(tobaccoFromDb => new TobaccoDto(tobaccoFromDb));
