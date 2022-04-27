@@ -42,7 +42,7 @@ function Search({data, handleChange, handleClear}) {
         autoComplete="off"
         value={data}
         onChange={handleChange}
-        placeholder='Tabakname'
+        placeholder='Tabakname, Hersteller oder Geschmack'
         InputProps={{
             startAdornment: (
                 <InputAdornment position="start">

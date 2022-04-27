@@ -20,7 +20,7 @@ function App() {
     console.debug(`Searching for ${filter}`);
     if(!filter || filter.length === 0) return [];
 
-    const apiUrl = `${baseApiUrl}?name=${encodeURIComponent(filter)}`;
+    const apiUrl = `${baseApiUrl}?search=${encodeURIComponent(filter)}`;
     const response = await fetch(apiUrl);
 
     if (response.status !== 200) {

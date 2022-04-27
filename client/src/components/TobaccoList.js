@@ -25,7 +25,7 @@ function TobaccoList({tobaccos}) {
               xs={2}
               sm={4}
               md={4}
-              key={tobacco._id}
+              key={tobacco.id}
             >
                 <Tobacco model={tobacco} />
             </Grid>)
@@ -36,7 +36,17 @@ function TobaccoList({tobaccos}) {
 }
 
 TobaccoList.propTypes = {
-  tobaccos: PropTypes.arrayOf(PropTypes.object).isRequired,
+  tobaccos: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      producer: PropTypes.string,
+      name: PropTypes.string,
+      tastes: PropTypes.arrayOf(PropTypes.string),
+      source: PropTypes.string,
+      ean: PropTypes.string,
+      description: PropTypes.string,
+    })
+  ).isRequired,
 }
 
 export default TobaccoList;

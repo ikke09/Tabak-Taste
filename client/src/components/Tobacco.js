@@ -42,7 +42,7 @@ const Tobacco = ({ model, ...rest }) => {
                         color="textPrimary"
                         variant="h6"
                     >
-                        {model.producer.name}
+                        {model.producer}
                     </Typography>
                 </CardContent>
             </Box>
@@ -78,7 +78,15 @@ const Tobacco = ({ model, ...rest }) => {
 };
 
 Tobacco.propTypes = {
-    model: PropTypes.object.isRequired,
+    model: PropTypes.shape({
+        id: PropTypes.string,
+        producer: PropTypes.string,
+        name: PropTypes.string,
+        tastes: PropTypes.arrayOf(PropTypes.string),
+        source: PropTypes.string,
+        ean: PropTypes.string,
+        description: PropTypes.string,
+    }).isRequired,
 }
 
 export default Tobacco;
