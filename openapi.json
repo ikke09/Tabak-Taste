@@ -1,0 +1,103 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Tabak-Taste API",
+    "version": "1.0.0.0"
+  },
+  "paths": {
+    "/api": {
+      "get": {
+        "description": "Get API version",
+        "responses": {
+          "200": {
+            "description": "Version Object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "version": {
+                      "type": "string",
+                      "description": "The version string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tobaccos": {
+      "get": {
+        "parameters": [
+          {
+            "in": "query",
+            "name": "search",
+            "schema": {
+              "type": "string",
+              "description": "The search parameter used to filter result list"
+            }
+          }
+        ],
+        "description": "Get filtered Array of Tobacco-Objects",
+        "responses": {
+          "200": {
+            "description": "List of tobaccos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TobaccoDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TobaccoDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "MongoDB-Id of the tobacco"
+          },
+          "producer": {
+            "type": "string",
+            "description": "Name of tobacco producer"
+          },
+          "name": {
+            "type": "string",
+            "description": "Tobacco name"
+          },
+          "tastes": {
+            "type": "array",
+            "items": {
+              "description": "Tastes of tobacco",
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "source": {
+            "type": "string",
+            "description": "Link to original source-shop"
+          },
+          "ean": {
+            "type": "string",
+            "description": "Barcode as string"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description from source shop about the tobacco"
+          }
+        }
+      }
+    }
+  }
+}

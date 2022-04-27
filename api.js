@@ -6,6 +6,12 @@ const cors = require('cors');
 const helmet = require("helmet");
 const mongoose = require('mongoose');
 const { Tobacco } = require('./models/tobacco');
+const { TobaccoDto } = require('./models/tobacco-dto');
+
+const swaggerUI = require('swagger-ui-express');
+// Generated with // https://editor.swagger.io/
+const openAPI = require('./openapi.json');
+const openAPIOptions = require('./openapi-options.json');
 
 const port = process.env.PORT || process.env.API_PORT;
 const dbOptions = {
@@ -18,12 +24,17 @@ mongoose.connect(process.env.DB_CONNECTION, dbOptions, (error) => {
     else console.debug('DB connected!');
 });
 
-app.get('/api', (req, res) => {
-  res.json({
-      version: process.env.API_VERSION
-  });
-});
+app.use(cors());
+app.use(helmet());
+app.use(express.static(path.join(__dirname, 'client/build')));
+app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(openAPI, openAPIOptions));
 
+app.get('/api', (req, res) => {
+    res.json({
+        version: process.env.API_VERSION
+    });
+  });
+  
 app.get('/api/tobaccos', (req, res) => {
 
     const findOptions = {};
@@ -34,14 +45,15 @@ app.get('/api/tobaccos', (req, res) => {
     }
 
     Tobacco.find(findOptions, (err, data) => {
-        if(err) console.error(err);
-        else res.json(data);
+        if(err) { 
+            console.error(err);
+            return res.json([]);
+        }
+        
+        const tobaccos = data.map(tobaccoFromDb => new TobaccoDto(tobaccoFromDb));
+        res.json(tobaccos);
     });
 });
-
-app.use(cors());
-app.use(helmet());
-app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'build' , 'index.html'));

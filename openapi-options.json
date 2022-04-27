@@ -1,0 +1,7 @@
+{
+    "url": "openapi.json",
+    "spec": { 
+        "openapi": "3.0.0" 
+    },
+    "explorer": true
+} 
