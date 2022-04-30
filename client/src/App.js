@@ -17,7 +17,6 @@ function App() {
   const baseApiUrl = '/api/tobaccos';
 
   const searchTobaccos = async(filter) => {
-    console.debug(`Searching for ${filter}`);
     if(!filter || filter.length === 0) return [];
 
     const apiUrl = `${baseApiUrl}?search=${encodeURIComponent(filter)}`;
