@@ -1,28 +1,42 @@
 version: "3.1"
 
+name: Tabak-Taste-DEV
+networks:
+  tabak-taste-db-network:
+    driver: bridge
 services:
   db-dev:
+    container_name: Tabak-Taste-DEV-DB
     extends:
       file: docker-compose.base.yml
       service: db
+    networks:
+      - tabak-taste-db-network
     ports:
       - ${DB_PORT}:27017
     volumes:
-      - ./docker-data/db:/var/lib/mongodb/data
+      - ./docker-data/db:/data/db
   db-ui:
+    container_name: Tabak-Taste-DEV-Express
     image: mongo-express
-    restart: always
     ports:
       - 8081:8081
+    depends_on:
+      - db-dev
+    networks:
+      - tabak-taste-db-network
     environment:
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: true
       ME_CONFIG_MONGODB_ADMINUSERNAME: ${DB_USER}
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${DB_PASSWORD}
-      ME_CONFIG_MONGODB_URL: ${DATABASE_URL}
+      ME_CONFIG_MONGODB_SERVER: Tabak-Taste-DEV-DB
+      ME_CONFIG_BASICAUTH_USERNAME: ${DB_UI_USER}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${DB_UI_PASSWORD}
     volumes:
-      - ./docker-data/db:/var/lib/mongodb/ui
+      - ./docker-data/db:/data/db
   swagger-ui:
     image: swaggerapi/swagger-ui:latest
-    container_name: swagger_ui_container
+    container_name: Tabak-Taste-DEV-Swagger
     ports:
       - "${SWAGGER_PORT}:8080"
     volumes:
