@@ -1,12 +1,12 @@
-require("dotenv").config();
-const express = require("express");
-const path = require("path");
+import "dotenv/config";
+import express, { Express } from "express";
+import path from "path";
+import helmet from "helmet";
+import cors from "cors";
+import { PrismaClient } from "@prisma/client";
+
 const app = express();
-const cors = require("cors");
-const helmet = require("helmet");
-const mongoose = require("mongoose");
-const { Tobacco } = require("../models/tobacco");
-const { TobaccoDto } = require("./types/tobacco-dto");
+const prisma = new PrismaClient();
 
 const swaggerUI = require("swagger-ui-express");
 // Generated with // https://editor.swagger.io/

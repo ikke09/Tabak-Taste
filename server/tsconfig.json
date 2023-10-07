@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2016",
+    "module": "CommonJS",
+    "outDir": "./dist",
+    "allowJs": true,
+    "checkJs": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true
+  },
+  "include": [
+    "./tests/**/*.js",
+    "./tests/**/*.ts",
+    "./prisma/**/*.ts",
+    "./types/**/*.ts",
+    "*.cjs",
+    ".*.cjs",
+    "*.js",
+    "*.ts",
+    "src/api.ts"
+  ]
+}
