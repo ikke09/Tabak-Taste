@@ -1,0 +1,32 @@
+version: "3.1"
+
+services:
+  db-dev:
+    extends:
+      file: docker-compose.base.yml
+      service: db
+    ports:
+      - ${DB_PORT}:27017
+    volumes:
+      - ./docker-data/db:/var/lib/mongodb/data
+  db-ui:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${DB_USER}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${DB_PASSWORD}
+      ME_CONFIG_MONGODB_URL: ${DATABASE_URL}
+    volumes:
+      - ./docker-data/db:/var/lib/mongodb/ui
+  swagger-ui:
+    image: swaggerapi/swagger-ui:latest
+    container_name: swagger_ui_container
+    ports:
+      - "${SWAGGER_PORT}:8080"
+    volumes:
+      - ./docker-data/swagger:/usr/share/nginx/html/doc
+      - ./openapi.json:/swagger
+    environment:
+      SWAGGER_JSON: /swagger/openapi.json
