@@ -34,13 +34,3 @@ services:
       ME_CONFIG_BASICAUTH_PASSWORD: ${DB_UI_PASSWORD}
     volumes:
       - ./docker-data/db:/data/db
-  swagger-ui:
-    image: swaggerapi/swagger-ui:latest
-    container_name: Tabak-Taste-DEV-Swagger
-    ports:
-      - "${SWAGGER_PORT}:8080"
-    volumes:
-      - ./docker-data/swagger:/usr/share/nginx/html/doc
-      - ./openapi.json:/swagger
-    environment:
-      SWAGGER_JSON: /swagger/openapi.json
