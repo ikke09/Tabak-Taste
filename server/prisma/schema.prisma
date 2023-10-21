@@ -3,23 +3,23 @@ generator client {
 }
 
 datasource db {
-    provider = "mongodb"
+    provider = "postgresql"
     url      = env("DATABASE_URL")
 }
 
 model Producer {
-    id          String @id @default(auto()) @map("_id") @db.ObjectId
-    name        String
+    id          Int @id @default(autoincrement())
+    name        String @unique
     path        String
     tobaccos    Tobacco[]
 }
 
 model Tobacco {
-    id                  String @id @default(auto()) @map("_id") @db.ObjectId
+    id                  Int @id @default(autoincrement())
     name                String
     tastes              String[]
     producer            Producer @relation(fields: [producerId], references: [id])
-    producerId          String @db.ObjectId
+    producerId          Int
     amount              Int?
     unit                String?
     price               Float?

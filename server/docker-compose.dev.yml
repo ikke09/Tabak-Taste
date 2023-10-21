@@ -13,24 +13,20 @@ services:
     networks:
       - tabak-taste-db-network
     ports:
-      - ${DB_PORT}:27017
+      - ${DB_PORT}:5432
     volumes:
-      - ./docker-data/db:/data/db
+      - ./docker-data/db:/var/lib/postgresql/data
   db-ui:
-    container_name: Tabak-Taste-DEV-Express
-    image: mongo-express
+    container_name: Tabak-Taste-DEV-PGAdmin
+    image: dpage/pgadmin4
     ports:
-      - 8081:8081
+      - 8081:80
     depends_on:
       - db-dev
     networks:
       - tabak-taste-db-network
     environment:
-      ME_CONFIG_MONGODB_ENABLE_ADMIN: true
-      ME_CONFIG_MONGODB_ADMINUSERNAME: ${DB_USER}
-      ME_CONFIG_MONGODB_ADMINPASSWORD: ${DB_PASSWORD}
-      ME_CONFIG_MONGODB_SERVER: Tabak-Taste-DEV-DB
-      ME_CONFIG_BASICAUTH_USERNAME: ${DB_UI_USER}
-      ME_CONFIG_BASICAUTH_PASSWORD: ${DB_UI_PASSWORD}
+      PGADMIN_DEFAULT_EMAIL: ${DB_USER}@tabak-taste.app
+      PGADMIN_DEFAULT_PASSWORD: ${DB_PASSWORD}
     volumes:
-      - ./docker-data/db:/data/db
+      - ./docker-data/db:/var/lib/pgadmin
