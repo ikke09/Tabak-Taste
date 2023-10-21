@@ -7,6 +7,7 @@
     "build": "tsc",
     "start": "cross-env NODE_ENV=production node dist/src/api.js",
     "dev": "cross-env NODE_ENV=development nodemon src/api.ts",
+    "db:types": "prisma generate",
     "db:update": "prisma db push",
     "docker-up:dev": "docker compose -f docker-compose.dev.yml up -d --wait",
     "docker-down:dev": "docker compose -f docker-compose.dev.yml down"
@@ -32,7 +33,7 @@
   },
   "homepage": "https://github.com/ikke09/Tabak-Taste#readme",
   "dependencies": {
-    "@prisma/client": "^5.3.1",
+    "@prisma/client": "^5.4.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
@@ -47,7 +48,7 @@
     "@types/node": "^20.8.2",
     "cross-env": "^7.0.3",
     "nodemon": "^3.0.1",
-    "prisma": "^5.4.1",
+    "prisma": "^5.4.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },

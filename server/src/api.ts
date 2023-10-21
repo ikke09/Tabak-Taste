@@ -1,9 +1,11 @@
 import Config from "./config";
-import express, { Express } from "express";
+import express from "express";
 import path from "path";
 import helmet from "helmet";
 import cors from "cors";
 import { PrismaClient } from "@prisma/client";
+import ApiResult from "../types/api-result";
+import { toDTO } from "../types/tobacco-dto";
 
 const app = express();
 const prisma = new PrismaClient();
@@ -36,29 +38,35 @@ app.get("/api/tobaccos", (req, res) => {
     return;
   }
 
-  // const findOptions = { $or: [] };
-  // const searchParameter = req.query.search;
-  // const nameOption = { name: { $regex: `${searchParameter}`, $options: "i" } };
-  // findOptions.$or.push(nameOption);
-  // const producerNameOption = {
-  //   "producer.name": { $regex: `${searchParameter}`, $options: "i" },
-  // };
-  // findOptions.$or.push(producerNameOption);
-  // const tasteOption = {
-  //   tastes: { $elemMatch: { $regex: `${searchParameter}`, $options: "i" } },
-  // };
-  // findOptions.$or.push(tasteOption);
-
-  // Tobacco.find(findOptions, (err, data) => {
-  //   if (err) {
-  //     console.error(err);
-  //     res.json([]);
-  //     return;
-  //   }
-
-  //   const tobaccos = data.map((tobaccoFromDb) => new TobaccoDto(tobaccoFromDb));
-  //   res.json(tobaccos);
-  // });
+  const searchQuery = `${req.query.search}`;
+  const result: ApiResult = {
+    status: 500,
+    error: "Search for Tobaccos failed",
+    data: undefined,
+  };
+  prisma.tobacco
+    .findMany({
+      where: {
+        name: {
+          contains: searchQuery,
+        },
+      },
+      include: {
+        producer: true,
+      },
+    })
+    .then((tobaccos) => {
+      result.data = tobaccos.map((tobacco) => toDTO(tobacco));
+      result.error = undefined;
+      result.status = 200;
+    })
+    .catch((error: Error) => {
+      result.error = error.message;
+    })
+    .finally(() => {
+      res.status(result.status);
+      res.json(result);
+    });
 });
 
 app.get("*", (req, res) => {

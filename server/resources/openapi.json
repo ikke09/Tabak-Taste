@@ -47,10 +47,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TobaccoDto"
-                  }
+                  "$ref": "#/components/schemas/ApiResult"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Search failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResult"
                 }
               }
             }
@@ -63,6 +70,13 @@
     "schemas": {
       "TobaccoDto": {
         "type": "object",
+        "required": [
+          "id",
+          "producer",
+          "name",
+          "tastes",
+          "source"
+        ],
         "properties": {
           "id": {
             "type": "string",
@@ -95,6 +109,28 @@
           "description": {
             "type": "string",
             "description": "Description from source shop about the tobacco"
+          }
+        }
+      },
+      "ApiResult": {
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "type": "number",
+            "description": "HTTP-Status Code"
+          },
+          "error": {
+            "type": "string",
+            "description": "Description of the error"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TobaccoDto"
+            }
           }
         }
       }
