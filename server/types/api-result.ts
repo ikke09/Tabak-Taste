@@ -3,8 +3,8 @@ import { tobaccoDTOSchema } from "./tobacco-dto";
 
 const apiResultSchema = z.object({
   status: z.number().default(200),
-  error: z.string().optional(),
-  data: z.array(tobaccoDTOSchema).optional(),
+  error: z.string().nullable(),
+  data: z.array(tobaccoDTOSchema).nullable(),
 });
 
 type ApiResult = z.infer<typeof apiResultSchema>;

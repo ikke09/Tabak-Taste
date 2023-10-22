@@ -2,13 +2,13 @@ import { z } from "zod";
 import { Prisma } from "@prisma/client";
 
 const tobaccoDTOSchema = z.object({
-  id: z.string(),
+  id: z.number(),
   producer: z.string(),
   name: z.string(),
   tastes: z.array(z.string()),
   source: z.string(),
-  ean: z.string().optional(),
-  description: z.string().optional(),
+  ean: z.string().nullable(),
+  description: z.string().nullable(),
 });
 
 type TobaccoDTO = z.infer<typeof tobaccoDTOSchema>;

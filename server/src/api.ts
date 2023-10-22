@@ -42,7 +42,7 @@ app.get("/api/tobaccos", (req, res) => {
   const result: ApiResult = {
     status: 500,
     error: "Search for Tobaccos failed",
-    data: undefined,
+    data: null,
   };
   prisma.tobacco
     .findMany({
@@ -57,11 +57,12 @@ app.get("/api/tobaccos", (req, res) => {
     })
     .then((tobaccos) => {
       result.data = tobaccos.map((tobacco) => toDTO(tobacco));
-      result.error = undefined;
+      result.error = null;
       result.status = 200;
     })
     .catch((error: Error) => {
       result.error = error.message;
+      console.error(error);
     })
     .finally(() => {
       res.status(result.status);
