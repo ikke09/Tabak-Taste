@@ -12,7 +12,7 @@ const configSchema = z.object({
   DB_NAME: z.string(),
   DB_UI_USER: z.string(),
   DB_UI_PASSWORD: z.string(),
-  DATABASE_URL: z.string().startsWith("mongodb://"),
+  DATABASE_URL: z.string().startsWith("postgresql://"),
 });
 
 const Config = configSchema.parse(process.env);
