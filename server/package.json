@@ -9,6 +9,8 @@
     "dev": "cross-env NODE_ENV=development nodemon src/api.ts",
     "db:types": "prisma generate",
     "db:update": "prisma db push",
+    "db:seed": "prisma db seed",
+    "db:migrate": "prisma migrate dev",
     "docker-up:dev": "docker compose -f docker-compose.dev.yml up -d --wait",
     "docker-down:dev": "docker compose -f docker-compose.dev.yml down"
   },
@@ -56,5 +58,8 @@
     "npm": ">= 7.0.0",
     "yarn": "Please use npm instead of yarn.",
     "pnpm": "Please use npm instead of pnpm."
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }
