@@ -5,7 +5,7 @@ import { styled } from "@mui/system";
 import SearchProps from "../types/SearchProps";
 
 const StyledInput = styled(TextField)(({ theme }) => ({
-  boxShadow: `-0.1rem -0.1rem 0.6rem 0.1rem ${theme.palette.primary.highlight}, 0.1rem 0.1rem 0.6rem 0.1rem ${theme.palette.primary.highlight}`,
+  boxShadow: `-0.1rem -0.1rem 0.6rem 0.1rem ${theme.palette.warning}, 0.1rem 0.1rem 0.6rem 0.1rem ${theme.palette.primary.highlight}`,
   border: `0.15rem solid black`,
   borderRadius: "0.75rem",
   width: "40%",
@@ -20,16 +20,16 @@ const StyledInput = styled(TextField)(({ theme }) => ({
   },
   "& input": {
     fontSize: "large",
-    color: `${theme.palette.primary.card}`,
+    color: `${theme.palette.info}`,
   },
 }));
 
 const ColoredSearchIcon = styled(SearchIcon)(({ theme }) => ({
-  color: `${theme.palette.primary.card}`,
+  color: `${theme.palette.info}`,
 }));
 
 const ColoredCancelIcon = styled(CancelIcon)(({ theme }) => ({
-  color: `${theme.palette.primary.card}`,
+  color: `${theme.palette.info}`,
 }));
 
 const Search = ({ data, handleChange, handleClear }: SearchProps) => {

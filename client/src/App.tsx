@@ -12,8 +12,15 @@ import useDebouncedSearch from "./hooks/useDebouncedSearch";
 import SearchProgress from "./components/SearchProgress";
 import { TobaccoListType } from "./types/Tobacco";
 import SearchFunctionType from "./types/SearchFunction";
+import { styled } from "@mui/system";
 
-function App() {
+const AppBox = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.primary,
+  heigth: "100%",
+  width: "100vw",
+}));
+
+const App = () => {
   const searchTobaccos: SearchFunctionType = async (filter: string) => {
     if (!filter || filter.length === 0) return [];
 
@@ -35,13 +42,7 @@ function App() {
 
   return (
     <ThemeProvider theme={Theme}>
-      <Box
-        sx={{
-          width: "100vw",
-          height: "100%",
-          backgroundColor: "primary.background",
-        }}
-      >
+      <AppBox>
         <Grid
           container
           spacing={0}
@@ -75,9 +76,9 @@ function App() {
           )}
           <Footer />
         </Grid>
-      </Box>
+      </AppBox>
     </ThemeProvider>
   );
-}
+};
 
 export default App;

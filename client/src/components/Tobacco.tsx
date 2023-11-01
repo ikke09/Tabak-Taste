@@ -16,7 +16,7 @@ const TobaccoCard = styled(Card)(({ theme }) => ({
 }));
 
 const TasteChip = styled(Chip)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.highlight,
+  backgroundColor: theme.palette.warning,
   fontSize: "0.8rem",
 }));
 

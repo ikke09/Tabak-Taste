@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import { styled } from "@mui/system";
 
 const StyledProgress = styled(CircularProgress)(({ theme }) => ({
-  color: theme.palette.primary.main,
+  color: theme.palette.primary.contrastText,
   marginTop: "1rem",
 }));
 
