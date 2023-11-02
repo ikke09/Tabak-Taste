@@ -11,12 +11,12 @@ import { styled } from "@mui/system";
 import { TobaccoProps } from "../types/Tobacco";
 
 const TobaccoCard = styled(Card)(({ theme }) => ({
-  backgroundColor: theme.palette.secondary,
+  backgroundColor: theme.palette.secondary.main,
   border: `1px solid black`,
 }));
 
 const TasteChip = styled(Chip)(({ theme }) => ({
-  backgroundColor: theme.palette.warning,
+  backgroundColor: theme.palette.warning.main,
   fontSize: "0.8rem",
 }));
 

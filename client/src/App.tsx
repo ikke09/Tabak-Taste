@@ -15,7 +15,7 @@ import SearchFunctionType from "./types/SearchFunction";
 import { styled } from "@mui/system";
 
 const AppBox = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.primary,
+  backgroundColor: theme.palette.primary.main,
   heigth: "100%",
   width: "100vw",
 }));
@@ -62,7 +62,7 @@ const App = () => {
             direction="column"
             alignItems="center"
             justifyContent="center"
-            style={{ flexGrow: inputText === "" ? "0" : "1" }}
+            style={{ flexGrow: inputText ? "0" : "1" }}
           >
             <Search
               data={inputText}

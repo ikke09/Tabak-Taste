@@ -10,6 +10,7 @@ const StyledFooter = styled(Grid)({
 
 const IconStyles = {
   verticalAlign: "text-bottom",
+  color: "white",
 };
 
 const Footer = () => {

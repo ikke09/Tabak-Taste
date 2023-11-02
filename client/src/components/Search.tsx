@@ -5,10 +5,10 @@ import { styled } from "@mui/system";
 import SearchProps from "../types/SearchProps";
 
 const StyledInput = styled(TextField)(({ theme }) => ({
-  boxShadow: `-0.1rem -0.1rem 0.6rem 0.1rem ${theme.palette.warning}, 0.1rem 0.1rem 0.6rem 0.1rem ${theme.palette.primary.highlight}`,
+  boxShadow: `-0.1rem -0.1rem 0.6rem 0.1rem ${theme.palette.warning.main}, 0.1rem 0.1rem 0.6rem 0.1rem ${theme.palette.warning.main}`,
   border: `0.15rem solid black`,
   borderRadius: "0.75rem",
-  width: "40%",
+  width: "40vw",
   minWidth: "300px",
   "& .MuiOutlinedInput-root": {
     "& fieldset": {
@@ -20,16 +20,16 @@ const StyledInput = styled(TextField)(({ theme }) => ({
   },
   "& input": {
     fontSize: "large",
-    color: `${theme.palette.info}`,
+    color: `${theme.palette.info.main}`,
   },
 }));
 
 const ColoredSearchIcon = styled(SearchIcon)(({ theme }) => ({
-  color: `${theme.palette.info}`,
+  color: `${theme.palette.info.main}`,
 }));
 
 const ColoredCancelIcon = styled(CancelIcon)(({ theme }) => ({
-  color: `${theme.palette.info}`,
+  color: `${theme.palette.info.main}`,
 }));
 
 const Search = ({ data, handleChange, handleClear }: SearchProps) => {
@@ -41,7 +41,7 @@ const Search = ({ data, handleChange, handleClear }: SearchProps) => {
       autoComplete="off"
       value={data}
       onChange={handleChange}
-      placeholder="Tabakname"
+      placeholder="Search for Tobacco name"
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
@@ -49,7 +49,7 @@ const Search = ({ data, handleChange, handleClear }: SearchProps) => {
           </InputAdornment>
         ),
         endAdornment: data && (
-          <IconButton aria-label="Eingabe löschen" onClick={handleClear}>
+          <IconButton aria-label="Clear input" onClick={handleClear}>
             <ColoredCancelIcon />
           </IconButton>
         ),

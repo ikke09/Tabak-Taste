@@ -2,7 +2,7 @@ import { styled } from "@mui/system";
 import TitleProps from "../types/TitleProps";
 
 const StyledTitle = styled("h1")(({ theme }) => ({
-  color: theme.palette.secondary,
+  color: theme.palette.secondary.main,
   WebkitTextStroke: `0.05rem black`,
   textStroke: `0.05rem black`,
   fontSize: "4rem",
