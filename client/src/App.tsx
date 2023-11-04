@@ -1,18 +1,17 @@
 import { Box, Grid } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
+import { styled } from "@mui/system";
 
 import Theme from "./themes/8Bit_Theme";
 import "./App.css";
 
 import Title from "./components/Title";
 import Search from "./components/Search";
-import TobaccoList from "./components/TobaccoList";
 import Footer from "./components/Footer";
 import useDebouncedSearch from "./hooks/useDebouncedSearch";
-import SearchProgress from "./components/SearchProgress";
-import { TobaccoListType } from "./types/Tobacco";
-import SearchFunctionType from "./types/SearchFunction";
-import { styled } from "@mui/system";
+import type SearchFunctionType from "./types/SearchFunction";
+import ApiResult from "./types/ApiResult";
+import Result from "./components/Result";
 
 const AppBox = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
@@ -22,7 +21,12 @@ const AppBox = styled(Box)(({ theme }) => ({
 
 const App = () => {
   const searchTobaccos: SearchFunctionType = async (filter: string) => {
-    if (!filter || filter.length === 0) return [];
+    let result: ApiResult = {
+      status: 400,
+      error: "",
+      data: [],
+    };
+    if (!filter || filter.length === 0) return result;
 
     const apiUrl = `${
       import.meta.env.VITE_API_BASE_URL
@@ -33,8 +37,8 @@ const App = () => {
       throw new Error("Search failed with Status " + response.status);
     }
 
-    const json = (await response.json()) as TobaccoListType;
-    return json;
+    result = (await response.json()) as ApiResult;
+    return result;
   };
 
   const { inputText, setInputText, search } =
@@ -70,10 +74,7 @@ const App = () => {
               handleClear={() => setInputText("")}
             />
           </Grid>
-          {search.loading && <SearchProgress />}
-          {search.result && !!inputText && (
-            <TobaccoList tobaccos={search.result} />
-          )}
+          {inputText && inputText !== "" && <Result result={search}></Result>}
           <Footer />
         </Grid>
       </AppBox>

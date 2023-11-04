@@ -11,7 +11,7 @@ import { styled } from "@mui/system";
 import { TobaccoProps } from "../types/Tobacco";
 
 const TobaccoCard = styled(Card)(({ theme }) => ({
-  backgroundColor: theme.palette.secondary.main,
+  backgroundColor: theme.palette.info.main,
   border: `1px solid black`,
 }));
 
