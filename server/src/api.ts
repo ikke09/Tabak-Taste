@@ -33,17 +33,20 @@ app.get("/api", (req, res) => {
 });
 
 app.get("/api/tobaccos", (req, res) => {
-  if (!req.query || !req.query.search) {
-    res.json([]);
-    return;
-  }
-
-  const searchQuery = `${req.query.search}`;
   const result: ApiResult = {
     status: 500,
     error: "Search for Tobaccos failed",
     data: null,
   };
+
+  if (!req.query || !req.query.search) {
+    res.status(result.status);
+    res.json(result);
+    return;
+  }
+
+  const searchQuery = `${req.query.search}`;
+
   prisma.tobacco
     .findMany({
       where: {
@@ -59,6 +62,9 @@ app.get("/api/tobaccos", (req, res) => {
       result.data = tobaccos.map((tobacco) => toDTO(tobacco));
       result.error = null;
       result.status = 200;
+      console.debug(
+        `Found ${result.data.length} tobaccos with query ${searchQuery}`
+      );
     })
     .catch((error: Error) => {
       result.error = error.message;
