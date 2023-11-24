@@ -1,9 +1,49 @@
-const axios = require("axios");
-const cheerio = require("cheerio");
-const Tobacco = require("./types/tobacco");
-const PageInfo = require("./types/page-info");
+import * as cheerio from "cheerio";
+import axios, { AxiosRequestConfig } from "axios";
+import type Tobacco from "./types/tobacco";
+import type PageInfo from "./types/pageInfo";
+import type Producer from "./types/producer";
 
-const tobaccoOverviewPageRequestOptions = {
+const scrapeShishaDeluxe = async (info: S): Promise<Tobacco[]> => {
+  if (debug) console.time("page-infos");
+  const { tobaccoCount, producers } = await loadPageInfos();
+  if (debug) {
+    console.log(`Found ${tobaccoCount} tobaccos listed on the website!`);
+    console.timeEnd("page-infos");
+    console.time("tobacco-base-infos");
+  }
+  const tobaccos: Tobacco[] = [];
+  await Promise.all(
+    producers.map(async (producer) => {
+      const tobaccosFromProducer = await loadTobaccosFromProducer(producer);
+      tobaccos.push(...tobaccosFromProducer);
+    })
+  );
+
+  if (debug) {
+    console.timeEnd("tobacco-base-infos");
+    console.time("tobacco-detail-infos");
+  }
+
+  await Promise.all(
+    tobaccos.map(async (tobacco) => await loadTobaccoDetails(tobacco))
+  );
+
+  if (debug) {
+    console.timeEnd("tobacco-detail-infos");
+    console.log(
+      `Scraped ${tobaccos.length} from ${tobaccoCount} Tobaccos on the Website!`
+    );
+    console.log(
+      `${tobaccos.filter((tobacco) => !tobacco.error).length} without error!`
+    );
+  }
+
+  return tobaccos;
+};
+
+
+const tobaccoOverviewPageRequestOptions: AxiosRequestConfig = {
   url: "/Shisha-Tabak",
   method: "get",
   baseURL: "https://www.shisha-deluxe.de",
@@ -14,7 +54,11 @@ const tobaccoOverviewPageRequestOptions = {
   responseEncoding: "utf8",
 };
 
-const loadPageInfos = async () => {
+const loadPageInfos = async (): Promise<PageInfo> => {
+  let info: PageInfo = {
+    tobaccoCount: 0,
+    producers: [],
+  };
   try {
     const response = await axios(tobaccoOverviewPageRequestOptions);
 
@@ -24,7 +68,7 @@ const loadPageInfos = async () => {
     const { 2: maxCount } = [...maxCountInfoStr.matchAll(numRegEx)];
 
     const producerItems = $("div.filter-type-manufacturer").find("li");
-    const producers = producerItems.toArray().map((node) => {
+    const producers: Producer[] = producerItems.toArray().map((node) => {
       const name = $(node).find("span.value").text().trim();
       const href = $(node).find("a").attr("href");
       const path = href.substring(href.lastIndexOf("/"));
@@ -34,13 +78,16 @@ const loadPageInfos = async () => {
       };
     });
 
-    return new PageInfo(Number(maxCount[0]), producers);
+    info.tobaccoCount = +maxCount[0];
+    info.producers = producers;
   } catch (error) {
     console.error(error);
   }
+  return info;
 };
 
-const loadTobaccosFromProducer = async (producer) => {
+const loadTobaccosFromProducer = async (producer: Producer): Promise<Tobacco[]> => {
+  let tobaccosOfProducer: Tobacco[] = [];
   try {
     const producerPageRequestOptions = {
       ...tobaccoOverviewPageRequestOptions,
@@ -49,14 +96,31 @@ const loadTobaccosFromProducer = async (producer) => {
     const response = await axios(producerPageRequestOptions);
     const $ = cheerio.load(response.data);
     const links = $("a.image-wrapper").toArray();
-    return links.map((link) => {
+    tobaccosOfProducer = links.map((link) => {
       const source = $(link).attr("href");
-      return new Tobacco(producer, source);
+      return {
+        producer,
+        source,
+        this.producer = producer;
+        this.name = undefined;
+        this.tastes = [];
+        this.type = 'Shisha-Tabak';
+        this.amount = 200;
+        this.unit = "g";
+        this.price = 17.9;
+        this.currency = "€";
+        this.source = source;
+        this.ean = undefined;
+        this.description = undefined;
+        this.error = undefined;
+      } as Tobacco;
+
     });
   } catch (error) {
     console.error(`Failed on ${producer}`);
     console.error(error);
   }
+  return tobaccos;♫^^  
 };
 
 const loadTobaccoDetails = async (tobacco) => {
@@ -110,44 +174,6 @@ const loadTobaccoDetails = async (tobacco) => {
   }
 };
 
-const scrapeTobaccos = async (debug) => {
-  if (debug) console.time("page-infos");
-  const { tobaccoCount, producers } = await loadPageInfos();
-  if (debug) {
-    console.log(`Found ${tobaccoCount} tobaccos listed on the website!`);
-    console.timeEnd("page-infos");
-    console.time("tobacco-base-infos");
-  }
-  const tobaccos = [];
-  await Promise.all(
-    producers.map(async (producer) => {
-      const tobaccosFromProducer = await loadTobaccosFromProducer(producer);
-      tobaccos.push(...tobaccosFromProducer);
-    })
-  );
 
-  if (debug) {
-    console.timeEnd("tobacco-base-infos");
-    console.time("tobacco-detail-infos");
-  }
 
-  await Promise.all(
-    tobaccos.map(async (tobacco) => await loadTobaccoDetails(tobacco))
-  );
-
-  if (debug) {
-    console.timeEnd("tobacco-detail-infos");
-    console.log(
-      `Scraped ${tobaccos.length} from ${tobaccoCount} Tobaccos on the Website!`
-    );
-    console.log(
-      `${tobaccos.filter((tobacco) => !tobacco.error).length} without error!`
-    );
-  }
-
-  return tobaccos;
-};
-
-module.exports = {
-  scrapeTobaccos,
-};
+export default scrapeShishaDeluxe;

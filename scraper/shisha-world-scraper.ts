@@ -144,7 +144,7 @@ const loadTobaccoDetails = async (tobacco) => {
   }
 };
 
-const scrapeTobaccos = async (debug) => {
+const scrapeShishaWorld = async (debug: boolean) => {
   if (debug) console.time("page-infos");
   const { tobaccoCount, producers } = await loadPageInfos();
   if (debug) {
@@ -182,6 +182,4 @@ const scrapeTobaccos = async (debug) => {
   return tobaccos;
 };
 
-module.exports = {
-  scrapeTobaccos,
-};
+export default scrapeShishaWorld;

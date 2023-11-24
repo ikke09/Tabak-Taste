@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "target": "ESNext",
+    "allowJs": true,
+    "typeRoots": ["./node_modules/@types", "./types"]
+  },
+  "include": ["./**/*.ts", "./types/**/*.ts"]
+}
