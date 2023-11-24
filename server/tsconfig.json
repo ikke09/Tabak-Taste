@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2016",
+    "target": "ESNext",
     "module": "CommonJS",
     "outDir": "./dist",
     "allowJs": true,
@@ -21,6 +21,6 @@
     ".*.cjs",
     "*.js",
     "*.ts",
-    "src/api.ts"
+    "index.ts"
   ]
 }
