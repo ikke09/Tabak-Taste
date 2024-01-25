@@ -1,8 +1,8 @@
 {
   "name": "tabak-taste-scraper",
   "version": "0.0.1",
-  "description": "Simple web scraper for the website shisha-world.com in order to pull tobacco informations",
-  "main": "index.js",
+  "description": "Web-Scraper libraries for shisha-shops to retrieve detailed informations about tobaccos!",
+  "main": "scraper.ts",
   "scripts": {
     "build": "tsc index.ts"
   },
@@ -30,6 +30,7 @@
     "yargs": "^17.7.2"
   },
   "devDependencies": {
+    "@types/cheerio": "^0.22.35",
     "@types/node": "^20.8.10",
     "@types/yargs": "^17.0.29",
     "ts-node": "^10.9.1",

@@ -1,16 +1,18 @@
-import { SiteMap, SITE, DefaultRequestOptions } from "./types/site";
+import { SiteMap, SITE } from "../types/site";
+import { ShishaDeluxeRequestOptions } from "./shisha-deluxe.constants";
+import { ShishaWorldRequestOptions } from "./shisha-world.constants";
 
 const SiteWithInformationMap: SiteMap = {
   [SITE.SHISHAWORLD]: {
     name: "Shisha-World",
     baseURL: "https://www.shisha-world.com/",
-    defaultRequestOptions: DefaultRequestOptions,
+    defaultRequestOptions: ShishaWorldRequestOptions,
     debug: true,
   },
   [SITE.SHISHADELUXE]: {
     name: "Shisha-Deluxe",
     baseURL: "https://www.shisha-deluxe.de/",
-    defaultRequestOptions: DefaultRequestOptions,
+    defaultRequestOptions: ShishaDeluxeRequestOptions,
     debug: true,
   },
 };

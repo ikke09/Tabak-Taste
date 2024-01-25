@@ -1,8 +1,6 @@
-import Producer from "./producer";
+import { Producer } from "./producer";
 
-type PageInfo = {
+export type PageInfo = {
   tobaccoCount: number;
   producers: Producer[];
 };
-
-export default PageInfo;

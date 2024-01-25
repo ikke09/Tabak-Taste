@@ -1,4 +1,4 @@
-type Tobacco = {
+export type Tobacco = {
   producer: string;
   name: string;
   tastes: string[];
@@ -12,4 +12,4 @@ type Tobacco = {
   error: string;
 };
 
-export default Tobacco;
+export type Tobaccos = Tobacco[];
