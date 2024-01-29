@@ -13,78 +13,95 @@ import {
 } from "../types";
 
 export class ShishaDeluxeScraper implements ShishaShopScraper {
-  async #loadTobaccosFromProducer(producer: Producer): Promise<Tobacco[]> {
-    let tobaccosOfProducer: Tobacco[] = [];
-
-    const producerPageRequestOptions = {
-      ...ShishaDeluxeRequestOptions,
-      url: `${producer.path}`,
-    };
-    const response = await axios(producerPageRequestOptions);
-    const $ = cheerio.load(response.data);
-    const links = $("a.image-wrapper").toArray();
-    return (tobaccosOfProducer = links.map((link) => {
-      const source = $(link).attr("href");
-      return <Tobacco>{
-        producer: producer.name,
-        source,
-        name: undefined,
-        tastes: [],
-        type: "Shisha-Tabak",
-        amount: 200,
-        unit: "g",
-        price: 17.9,
-        currency: "€",
-        ean: undefined,
-        description: undefined,
-        error: undefined,
+  async #loadTobaccosFromProducer(producer: Producer): Promise<Tobaccos> {
+    try {
+      const producerPageRequestOptions = {
+        ...ShishaDeluxeRequestOptions,
+        url: `${producer.path}`,
       };
-    }));
+      const response = await axios(producerPageRequestOptions);
+      const $ = cheerio.load(response.data);
+      const links = $("a.image-wrapper").toArray();
+      return <Tobaccos>links.map((link) => {
+        const source = $(link).attr("href");
+        return <Tobacco>{
+          producer: producer.name,
+          source,
+          name: undefined,
+          tastes: [],
+          type: "Shisha-Tabak",
+          amount: 200,
+          unit: "g",
+          price: 17.9,
+          currency: "€",
+          ean: undefined,
+          description: undefined,
+          error: undefined,
+        };
+      });
+    } catch (error: unknown) {
+      console.error(`Failed loading from ${producer}`, error);
+      throw new ScraperError(
+        SITE.SHISHADELUXE,
+        `Failed to load tobaccos from Producer ${producer}`
+      );
+    }
   }
 
   async #loadTobaccoDetails(tobaccoSource: string): Promise<Tobacco> {
-    const detailRequestOptions = {
-      ...ShishaDeluxeRequestOptions,
-      url: `/${tobaccoSource}`,
-    };
-    const response = await axios(detailRequestOptions);
-    const $ = cheerio.load(response.data);
-    const productAttributesDiv = $("div.product-attributes");
-    const { 0: amount, 1: unit } = productAttributesDiv
-      .find('td:contains("Inhalt")')
-      .next()
-      .text()
-      .split(" ");
-    const tobacco: Tobacco = <Tobacco>{};
-    tobacco.amount = Number(amount);
-    tobacco.unit = unit;
+    try {
+      const detailRequestOptions = {
+        ...ShishaDeluxeRequestOptions,
+        url: `/${tobaccoSource}`,
+      };
+      const response = await axios(detailRequestOptions);
+      const $ = cheerio.load(response.data);
+      const productAttributesDiv = $("div.product-attributes");
+      const { 0: amount, 1: unit } = productAttributesDiv
+        .find('td:contains("Inhalt")')
+        .next()
+        .text()
+        .split(" ");
+      const tobacco: Tobacco = <Tobacco>{};
+      tobacco.amount = Number(amount);
+      tobacco.unit = unit;
 
-    tobacco.tastes = productAttributesDiv
-      .find('td:contains("Geschmack:")')
-      .next()
-      .find("a")
-      .toArray()
-      .map((node) => $(node).attr("href").trim());
+      tobacco.tastes = productAttributesDiv
+        .find('td:contains("Geschmack:")')
+        .next()
+        .find("a")
+        .toArray()
+        .map((node) => $(node).attr("href").trim());
 
-    const descriptionElement = $("div.desc");
-    tobacco.description = descriptionElement.find("p").text();
-    const name = descriptionElement.find('li:contains("Sorte:")').text().trim();
-    tobacco.name = name.substring(name.indexOf(":") + 1).trim();
-
-    if (tobacco.tastes.length == 0) {
-      const tastes = descriptionElement
-        .find('li:contains("Geschmack:")')
+      const descriptionElement = $("div.desc");
+      tobacco.description = descriptionElement.find("p").text();
+      const name = descriptionElement
+        .find('li:contains("Sorte:")')
         .text()
         .trim();
-      tobacco.tastes = tastes
-        .substring(tastes.indexOf(":") + 1)
-        .trim()
-        .split(" ");
-    }
+      tobacco.name = name.substring(name.indexOf(":") + 1).trim();
 
-    tobacco.price = Number($("meta[itemprop=price]").attr("content"));
-    tobacco.source = `${detailRequestOptions.baseURL}${detailRequestOptions.url}`;
-    return tobacco;
+      if (tobacco.tastes.length == 0) {
+        const tastes = descriptionElement
+          .find('li:contains("Geschmack:")')
+          .text()
+          .trim();
+        tobacco.tastes = tastes
+          .substring(tastes.indexOf(":") + 1)
+          .trim()
+          .split(" ");
+      }
+
+      tobacco.price = Number($("meta[itemprop=price]").attr("content"));
+      tobacco.source = `${detailRequestOptions.baseURL}${detailRequestOptions.url}`;
+      return tobacco;
+    } catch (error: unknown) {
+      console.error(`Failed to load Details from ${tobaccoSource}`, error);
+      throw new ScraperError(
+        SITE.SHISHADELUXE,
+        `Unable to scrape details for Tobacco ${tobaccoSource}`
+      );
+    }
   }
 
   async scrapeSite({ withLogging }: ScrapeOptions): Promise<Tobaccos> {
@@ -131,17 +148,24 @@ export class ShishaDeluxeScraper implements ShishaShopScraper {
 
       return tobaccos;
     } catch (error: unknown) {
-      console.error(error);
-      throw new ScraperError(SITE.SHISHADELUXE, "Unable to load tobaccos!");
+      console.error("Failed scraping", error);
+      if (error instanceof ScraperError) {
+        throw error;
+      } else {
+        throw new ScraperError(
+          SITE.SHISHADELUXE,
+          `Scraping failed: ${(error as Error).cause}`
+        );
+      }
     }
   }
 
   async retrieveShopInfos(): Promise<PageInfo> {
-    let info: PageInfo = {
-      tobaccoCount: 0,
-      producers: [],
-    };
     try {
+      let info: PageInfo = {
+        tobaccoCount: 0,
+        producers: [],
+      };
       const response = await axios(ShishaDeluxeRequestOptions);
 
       const $ = cheerio.load(response.data);
@@ -162,13 +186,13 @@ export class ShishaDeluxeScraper implements ShishaShopScraper {
 
       info.tobaccoCount = +maxCount[0];
       info.producers = producers;
+      return info;
     } catch (error: unknown) {
-      console.error(error);
+      console.error(`Failed to retrieve page infos!`, error);
       throw new ScraperError(
         SITE.SHISHADELUXE,
-        "Unable to retrieve page infos!"
+        "Unable to retrieve PageInfos!"
       );
     }
-    return info;
   }
 }

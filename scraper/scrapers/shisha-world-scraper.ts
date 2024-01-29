@@ -35,9 +35,12 @@ export class ShishaWorldScraper implements ShishaShopScraper {
         const source = $(link).attr("href");
         return <Tobacco>{ producer: producer.name, source };
       });
-    } catch (error) {
-      console.error(`Failed on ${producer}`);
-      console.error(error);
+    } catch (error: unknown) {
+      console.error(`Failed loading from ${producer}`, error);
+      throw new ScraperError(
+        SITE.SHISHAWORLD,
+        `Failed to load tobaccos from Producer ${producer}`
+      );
     }
   }
 
@@ -93,57 +96,67 @@ export class ShishaWorldScraper implements ShishaShopScraper {
       tobacco.name = title.replaceAll(replacRegex, "").trim();
 
       return tobacco;
-    } catch (error) {
-      console.error(
-        error.message || `Failed to load Details from ${tobacco.source}`
-      );
+    } catch (error: unknown) {
+      console.error(`Failed to load Details from ${tobacco.source}`, error);
       throw new ScraperError(
         SITE.SHISHAWORLD,
         `Unable to scrape details for Tobacco ${tobacco.source}`
       );
-    } finally {
-      return tobacco;
     }
   }
 
   async scrapeSite({ withLogging }: ScrapeOptions): Promise<Tobaccos> {
-    if (withLogging) console.time("page-infos");
-    const { tobaccoCount, producers } = await this.retrieveShopInfos();
-    if (withLogging) {
-      console.log(`Found ${tobaccoCount} tobaccos listed on the website!`);
-      console.timeEnd("page-infos");
-      console.time("tobacco-base-infos");
-    }
-    const tobaccos: Tobaccos = [];
-    await Promise.all(
-      producers.map(async (producer) => {
-        const tobaccosFromProducer = await this.#loadTobaccosFromProducer(
-          producer
+    try {
+      if (withLogging) console.time("page-infos");
+      const { tobaccoCount, producers } = await this.retrieveShopInfos();
+      if (withLogging) {
+        console.log(`Found ${tobaccoCount} tobaccos listed on the website!`);
+        console.timeEnd("page-infos");
+        console.time("tobacco-base-infos");
+      }
+      const tobaccos: Tobaccos = [];
+      await Promise.all(
+        producers.map(async (producer) => {
+          const tobaccosFromProducer = await this.#loadTobaccosFromProducer(
+            producer
+          );
+          tobaccos.push(...tobaccosFromProducer);
+        })
+      );
+
+      if (withLogging) {
+        console.timeEnd("tobacco-base-infos");
+        console.time("tobacco-detail-infos");
+      }
+
+      await Promise.all(
+        tobaccos.map(async (tobacco) => await this.#loadTobaccoDetails(tobacco))
+      );
+
+      if (withLogging) {
+        console.timeEnd("tobacco-detail-infos");
+        console.log(
+          `Scraped ${tobaccos.length} from ${tobaccoCount} Tobaccos on the Website!`
         );
-        tobaccos.push(...tobaccosFromProducer);
-      })
-    );
+        console.log(
+          `${
+            tobaccos.filter((tobacco) => !tobacco.error).length
+          } without error!`
+        );
+      }
 
-    if (withLogging) {
-      console.timeEnd("tobacco-base-infos");
-      console.time("tobacco-detail-infos");
+      return tobaccos;
+    } catch (error: unknown) {
+      console.error("Failed scraping", error);
+      if (error instanceof ScraperError) {
+        throw error;
+      } else {
+        throw new ScraperError(
+          SITE.SHISHAWORLD,
+          `Scraping failed: ${(error as Error).cause}`
+        );
+      }
     }
-
-    await Promise.all(
-      tobaccos.map(async (tobacco) => await this.#loadTobaccoDetails(tobacco))
-    );
-
-    if (withLogging) {
-      console.timeEnd("tobacco-detail-infos");
-      console.log(
-        `Scraped ${tobaccos.length} from ${tobaccoCount} Tobaccos on the Website!`
-      );
-      console.log(
-        `${tobaccos.filter((tobacco) => !tobacco.error).length} without error!`
-      );
-    }
-
-    return tobaccos;
   }
   async retrieveShopInfos(): Promise<PageInfo> {
     try {
@@ -173,9 +186,8 @@ export class ShishaWorldScraper implements ShishaShopScraper {
       });
 
       return <PageInfo>{ tobaccoCount: maxCount, producers };
-    } catch (error) {
-      console.error(`Failed to retrieve page infos!`);
-      console.error(error);
+    } catch (error: unknown) {
+      console.error(`Failed to retrieve page infos!`, error);
       throw new ScraperError(SITE.SHISHAWORLD, "Unable to retrieve PageInfos!");
     }
   }
