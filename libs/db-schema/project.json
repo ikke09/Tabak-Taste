@@ -1,0 +1,63 @@
+{
+  "name": "db-schema",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/db-schema/prisma",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "dependsOn": [
+        "^db:types"
+      ],
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/db-schema",
+        "main": "libs/db-schema/src/index.ts",
+        "tsConfig": "libs/db-schema/tsconfig.lib.json",
+        "assets": [
+          "libs/db-schema/*.md"
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "libs/db-schema/**/*.ts"
+        ]
+      }
+    },
+    "db:migrate": {
+      "builder": "@nx/workspace:run-commands",
+      "outputs": [],
+      "command": "npx prisma migrate dev --schema=./libs/db-schema/src/prisma/schema.prisma",
+      "options": {}
+    },
+    "db:types": {
+      "builder": "@nx/workspace:run-commands",
+      "outputs": [],
+      "command": "npx prisma generate --schema=./libs/db-schema/src/prisma/schema.prisma",
+      "options": {}
+    },
+    "db:update": {
+      "builder": "@nx/workspace:run-commands",
+      "outputs": [],
+      "command": "npx prisma db push --schema=./libs/db-schema/src/prisma/schema.prisma",
+      "options": {}
+    },
+    "db:seed": {
+      "builder": "@nx/workspace:run-commands",
+      "outputs": [],
+      "command": "npx prisma db seed ./libs/db-schema/src/prisma/seed.ts",
+      "options": {}
+    }
+  },
+  "tags": [
+    "type:lib"
+  ]
+}
