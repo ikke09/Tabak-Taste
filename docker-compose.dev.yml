@@ -1,4 +1,4 @@
-version: "3.1"
+version: '3.1'
 
 name: tabak-taste-dev
 networks:
@@ -25,6 +25,11 @@ services:
       - db-dev
     networks:
       - tabak-taste-db-network
+    env_file:
+      - path: ./libs/db-schema/.env
+        required: true # default
+      - path: ./libs/db-schema/.env.local
+        required: false
     environment:
       PGADMIN_DEFAULT_EMAIL: ${DB_USER}@tabak-taste.app
       PGADMIN_DEFAULT_PASSWORD: ${DB_PASSWORD}
