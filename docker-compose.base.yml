@@ -1,10 +1,15 @@
-version: "3.1"
+version: '3.1'
 
 services:
   db:
     image: postgres:16-alpine
     container_name: PostgresDB
     restart: always
+    env_file:
+      - path: ./libs/db-schema/.env
+        required: true # default
+      - path: ./libs/db-schema/.env.local
+        required: false
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_USER: ${DB_USER}

@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "nx": "nx",
-    "start": "nx run-many -t serve --projects=tag:type:app",
+    "start": "npm run docker:dev:up && nx run-many -t serve --projects=tag:type:app",
     "build": "nx run-many -t build",
     "lint": "nx run-many -t lint",
     "lint:fix": "nx run-many -t lint:fix",
@@ -12,7 +12,9 @@
     "db:types": "nx run db-schema:db:types",
     "db:migrate": "nx run db-schema:db:migrate",
     "db:update": "nx run db-schema:db:update",
-    "db:seed": "nx run db-schema:db:seed"
+    "db:seed": "nx run db-schema:db:seed",
+    "docker:dev:up": "docker compose -f docker-compose.dev.yml up",
+    "docker:dev:down": "docker compose -f docker-compose.dev.yml down"
   },
   "private": true,
   "devDependencies": {
