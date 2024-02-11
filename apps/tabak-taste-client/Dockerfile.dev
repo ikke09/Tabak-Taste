@@ -1,0 +1,21 @@
+# Install dependencies only when needed
+FROM node:lts-alpine as deps
+
+WORKDIR /tabak-taste-client
+COPY dist/apps/tabak-taste-client/package*.json ./
+RUN npm install --omit=dev
+
+# Dev image, copy all the files and run next
+FROM node:lts-alpine as runner
+RUN apk add --no-cache dumb-init
+ENV NODE_ENV development
+ENV PORT 3000
+WORKDIR /tabak-taste-client
+COPY --from=deps /tabak-taste-client/node_modules ./node_modules
+COPY --from=deps /tabak-taste-client/package.json ./package.json
+COPY dist/apps/tabak-taste-client/ ./public
+RUN chown -R node:node .
+USER node
+EXPOSE 3000
+
+CMD ["npm", "run", "start"]

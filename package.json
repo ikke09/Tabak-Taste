@@ -19,6 +19,7 @@
     "@emotion/babel-plugin": "11.11.0",
     "@eslint/eslintrc": "^2.1.1",
     "@eslint/js": "~8.48.0",
+    "@nx-tools/nx-container": "^5.2.0",
     "@nx/cypress": "17.2.8",
     "@nx/eslint": "17.2.8",
     "@nx/eslint-plugin": "17.2.8",
