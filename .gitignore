@@ -110,3 +110,4 @@ docker-data
 dist/**
 tmp/**
 **/.DS_STORE
+.vscode
