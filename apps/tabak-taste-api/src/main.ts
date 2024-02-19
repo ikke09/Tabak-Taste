@@ -45,9 +45,12 @@ app.get('/api/tobaccos', (req, res) => {
     res.json(result);
     return;
   }
+  console.log(prisma);
   const service = new TobaccoService(prisma);
   const searchQuery = `${req.query.search}`;
+  console.log('Query:', searchQuery);
   service.findTobaccosWithProducer(searchQuery).then((dbResponse) => {
+    console.log('Service Response:', dbResponse);
     if (dbResponse instanceof ApiError) {
       result.error = dbResponse;
     } else {

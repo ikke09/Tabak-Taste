@@ -4,17 +4,20 @@
   "license": "MIT",
   "scripts": {
     "nx": "nx",
-    "start": "npm run docker:dev:up && nx run-many -t serve --projects=tag:type:app",
+    "start": "nx run-many -t serve --projects=tag:type:app",
     "build": "nx run-many -t build",
     "lint": "nx run-many -t lint",
     "lint:fix": "nx run-many -t lint:fix",
     "test": "nx run-many -t test",
+    "db:init": "npm run db:types && npm run db:migrate && npm run db:seed",
     "db:types": "nx run db-schema:db:types",
-    "db:migrate": "nx run db-schema:db:migrate",
-    "db:update": "nx run db-schema:db:update",
-    "db:seed": "nx run db-schema:db:seed",
-    "docker:dev:up": "docker compose -f docker-compose.dev.yml up",
-    "docker:dev:down": "docker compose -f docker-compose.dev.yml down"
+    "db:migrate": "dotenv -e libs/db-schema/.env -c -- nx run db-schema:db:migrate",
+    "db:update": "dotenv -e libs/db-schema/.env -c -- nx run db-schema:db:update",
+    "db:seed": "dotenv -e libs/db-schema/.env -c -- nx run db-schema:db:seed",
+    "docker:dev:up": "dotenv -e libs/db-schema/.env -c -- docker compose -f docker-compose.dev.yml up --build -d --wait",
+    "docker:dev:down": "dotenv -e libs/db-schema/.env -c -- docker compose -f docker-compose.dev.yml down",
+    "docker:prod:up": "npm run build && dotenv -e libs/db-schema/.env -c -- docker compose -f docker-compose.prod.yml up --build --wait",
+    "docker:prod:down": "dotenv -e libs/db-schema/.env -c -- docker compose -f docker-compose.prod.yml down"
   },
   "private": true,
   "devDependencies": {
@@ -22,6 +25,7 @@
     "@eslint/eslintrc": "^2.1.1",
     "@eslint/js": "~8.48.0",
     "@nx-tools/nx-container": "^5.2.0",
+    "@nx-tools/nx-prisma": "^5.2.0",
     "@nx/cypress": "17.2.8",
     "@nx/eslint": "17.2.8",
     "@nx/eslint-plugin": "17.2.8",
@@ -48,6 +52,7 @@
     "@vitest/coverage-v8": "~0.34.6",
     "@vitest/ui": "~0.34.6",
     "cypress": "^13.0.0",
+    "dotenv-cli": "^7.3.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-config-xo-typescript": "^1.0.1",
     "eslint-plugin-cypress": "^2.13.4",
@@ -59,6 +64,7 @@
     "jsdom": "~22.1.0",
     "nx": "17.2.8",
     "prettier": "^2.6.2",
+    "prisma": "^5.8.1",
     "react-refresh": "^0.10.0",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
@@ -93,5 +99,8 @@
     "tslib": "^2.3.0",
     "use-constant": "^1.1.1",
     "zod": "^3.22.4"
+  },
+  "engines": {
+    "node": "^20"
   }
 }

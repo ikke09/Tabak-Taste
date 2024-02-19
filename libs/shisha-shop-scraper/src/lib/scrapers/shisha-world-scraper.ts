@@ -4,11 +4,8 @@ import axios from 'axios';
 import { ShishaWorldRequestOptions } from '../constants/shisha-world.constants';
 import { ShishaShopScraper } from './shisha-shop-scraper';
 import {
-  Tobaccos,
-  Tobacco,
   SITE,
   PageInfo,
-  Producer,
   ScraperError,
   ScrapeOptions,
   TobaccoWithProducer,

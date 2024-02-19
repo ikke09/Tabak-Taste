@@ -1,4 +1,4 @@
-import { PrismaClient, Prisma } from '@tabak-taste/db';
+import { PrismaClient, Prisma } from '@prisma/client';
 import { TobaccoDTO, ApiError } from '@tabak-taste/types';
 import { TobaccoDto } from '../data/tobacco.dto';
 

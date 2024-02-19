@@ -33,28 +33,34 @@
       }
     },
     "db:migrate": {
-      "builder": "@nx/workspace:run-commands",
-      "outputs": [],
-      "command": "npx prisma migrate dev --schema=./libs/db-schema/src/prisma/schema.prisma",
-      "options": {}
+      "executor": "@nx-tools/nx-prisma:migrate",
+      "options": {
+        "schema": "libs/db-schema/src/prisma/schema.prisma",
+        "tsConfig": "libs/db-schema/tsconfig.lib.json",
+        "name": "Tabak-Taste-Migration"
+      }
     },
     "db:types": {
-      "builder": "@nx/workspace:run-commands",
-      "outputs": [],
-      "command": "npx prisma generate --schema=./libs/db-schema/src/prisma/schema.prisma",
-      "options": {}
+      "executor":"@nx-tools/nx-prisma:generate",
+      "options": {
+        "schema": "libs/db-schema/src/prisma/schema.prisma",
+        "tsConfig": "libs/db-schema/tsconfig.lib.json"
+      }
     },
     "db:update": {
-      "builder": "@nx/workspace:run-commands",
-      "outputs": [],
-      "command": "npx prisma db push --schema=./libs/db-schema/src/prisma/schema.prisma",
-      "options": {}
+      "executor": "@nx-tools/nx-prisma:push",
+      "options": {
+        "schema": "libs/db-schema/src/prisma/schema.prisma",
+        "tsConfig": "libs/db-schema/tsconfig.lib.json"
+      }
     },
     "db:seed": {
-      "builder": "@nx/workspace:run-commands",
-      "outputs": [],
-      "command": "npx prisma db seed ./libs/db-schema/src/prisma/seed.ts",
-      "options": {}
+      "executor": "@nx-tools/nx-prisma:seed",
+      "options": {
+        "tsConfig": "libs/db-schema/tsconfig.lib.json",
+        "script": "libs/db-schema/src/prisma/seed.ts",
+        "schema": "libs/db-schema/src/prisma/schema.prisma"
+      }
     }
   },
   "tags": [

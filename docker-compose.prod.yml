@@ -1,6 +1,6 @@
 version: '3.1'
 
-name: tabak-taste-dev
+name: tabak-taste
 networks:
   tabak-taste-db-network:
     driver: bridge
@@ -8,14 +8,14 @@ services:
   db-dev:
     container_name: tabak-taste-db
     extends:
-      file: docker-compose.base.yml
+      file: ./docker-compose.base.yml
       service: db
     networks:
       - tabak-taste-db-network
     ports:
       - ${DB_PORT}:5432
     volumes:
-      - ./docker-data/db:/var/lib/postgresql/data
+      - ./docker-data/db-prod:/var/lib/postgresql/data
   api:
     build:
       context: .
