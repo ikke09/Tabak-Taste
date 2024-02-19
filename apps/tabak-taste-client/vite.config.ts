@@ -10,6 +10,12 @@ export default defineConfig({
   server: {
     port: 4200,
     host: 'localhost',
+    proxy: {
+      '/api': {
+        target: process.env.NX_PROXY,
+        changeOrigin: true,
+      },
+    }
   },
 
   preview: {

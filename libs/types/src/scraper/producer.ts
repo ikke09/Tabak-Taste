@@ -1,4 +1,5 @@
-import { Producer, Prisma } from '@tabak-taste/db';
+import type { ProducerEntity } from '../db';
+import { Prisma } from '@prisma/client';
 
 const producerWithoutId = Prisma.validator<Prisma.ProducerDefaultArgs>()({
   select: { name: true, path: true },
@@ -6,4 +7,4 @@ const producerWithoutId = Prisma.validator<Prisma.ProducerDefaultArgs>()({
 
 type ProducerWithoutId = Prisma.ProducerGetPayload<typeof producerWithoutId>;
 
-export { Producer, ProducerWithoutId };
+export { ProducerEntity, ProducerWithoutId };

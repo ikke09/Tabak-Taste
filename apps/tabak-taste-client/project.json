@@ -27,7 +27,8 @@
       "executor": "@nx/vite:dev-server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "tabak-taste-client:build"
+        "buildTarget": "tabak-taste-client:build",
+        "buildLibsFromSource": false
       },
       "configurations": {
         "development": {
