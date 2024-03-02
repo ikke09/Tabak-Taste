@@ -1,4 +1,4 @@
-import { Tobacco, Prisma } from '@tabak-taste/db';
+import { Tobacco, Prisma } from '@tabak-taste/db-schema';
 import { ProducerWithoutId } from './producer';
 
 const tobaccoWithoutId = Prisma.validator<Prisma.TobaccoDefaultArgs>()({

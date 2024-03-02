@@ -1,12 +1,11 @@
-import { PrismaClient, Prisma } from '@prisma/client';
-import { TobaccoDTO, ApiError } from '@tabak-taste/types';
-import { TobaccoDto } from '../data/tobacco.dto';
+import { PrismaClient, Prisma } from '@tabak-taste/db-schema';
+import { TobaccoDTO, ApiError, TobaccoDTOSchema } from '@tabak-taste/types';
 
 export class TobaccoService {
-  private readonly db: PrismaClient;
+  private db: PrismaClient;
 
-  constructor(prismaClient: PrismaClient) {
-    this.db = prismaClient;
+  constructor() {
+    this.db = new PrismaClient();
   }
 
   async findTobaccosWithProducer(
@@ -28,9 +27,18 @@ export class TobaccoService {
         },
       });
 
-      return tobaccoEntities.map((tobacco) =>
-        TobaccoDto.convertFromEntity(tobacco)
-      );
+      return tobaccoEntities.map((tobacco) => {
+        const candidate: TobaccoDTO = {
+            id: tobacco.id,
+            producer: tobacco.producer.name,
+            name: tobacco.name,
+            tastes: tobacco.tastes,
+            source: tobacco.source,
+            description: tobacco.description,
+            ean: tobacco.ean,
+          };
+        return TobaccoDTOSchema.parse(candidate);
+      });
     } catch (error: unknown) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         return new ApiError(

@@ -2,13 +2,11 @@ import Config from './config';
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
-import { PrismaClient } from '@prisma/client';
 import { ApiError, ApiResult } from '@tabak-taste/types';
-import { TobaccoService } from './services/tobacco.service';
+import { TobaccoService } from '@tabak-taste/db';
 
 const app = express();
-const prisma = new PrismaClient();
-
+const tobaccoService = new TobaccoService();
 app.use(cors());
 app.use(helmet());
 
@@ -45,11 +43,10 @@ app.get('/api/tobaccos', (req, res) => {
     res.json(result);
     return;
   }
-  console.log(prisma);
-  const service = new TobaccoService(prisma);
+  console.log(tobaccoService);
   const searchQuery = `${req.query.search}`;
   console.log('Query:', searchQuery);
-  service.findTobaccosWithProducer(searchQuery).then((dbResponse) => {
+  tobaccoService.findTobaccosWithProducer(searchQuery).then((dbResponse) => {
     console.log('Service Response:', dbResponse);
     if (dbResponse instanceof ApiError) {
       result.error = dbResponse;
