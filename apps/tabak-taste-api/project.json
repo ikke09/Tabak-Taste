@@ -5,26 +5,21 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nx/webpack:webpack",
+      "executor": "@nx/esbuild:esbuild",
       "outputs": [
         "{options.outputPath}"
       ],
-      "defaultConfiguration": "production",
       "options": {
-        "target": "node",
-        "compiler": "tsc",
         "outputPath": "dist/apps/tabak-taste-api",
         "main": "apps/tabak-taste-api/src/main.ts",
         "tsConfig": "apps/tabak-taste-api/tsconfig.app.json",
-        "assets": [
-          "apps/tabak-taste-api/src/assets"
+        "assets": [],
+        "generatePackageJson": true,
+        "format": [
+          "esm"
         ],
-        "webpackConfig": "apps/tabak-taste-api/webpack.config.js",
-        "generatePackageJson": true
-      },
-      "configurations": {
-        "development": {},
-        "production": {}
+        "platform": "node",
+        "bundle": true
       }
     },
     "serve": {
