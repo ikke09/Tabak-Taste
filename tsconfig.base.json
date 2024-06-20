@@ -15,8 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@tabak-taste/db-schema": ["libs/db-schema/src/index.ts"],
       "@tabak-taste/db": ["libs/db-service/src/index.ts"],
+      "@tabak-taste/db-schema": ["libs/db-schema/src/index.ts"],
       "@tabak-taste/scraper": ["libs/shisha-shop-scraper/src/index.ts"],
       "@tabak-taste/types": ["libs/types/src/index.ts"]
     }

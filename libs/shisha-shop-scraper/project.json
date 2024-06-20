@@ -3,38 +3,27 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shisha-shop-scraper/src",
   "projectType": "library",
+  "tags": ["type:lib"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/shisha-shop-scraper",
         "main": "libs/shisha-shop-scraper/src/index.ts",
         "tsConfig": "libs/shisha-shop-scraper/tsconfig.lib.json",
-        "assets": [
-          "libs/shisha-shop-scraper/*.md"
-        ]
+        "assets": ["libs/shisha-shop-scraper/*.md"]
       }
     },
     "lint": {
-      "executor": "@nx/eslint:lint",
-      "outputs": [
-        "{options.outputFile}"
-      ]
+      "executor": "@nx/eslint:lint"
     },
     "test": {
       "executor": "@nx/vite:test",
-      "outputs": [
-        "{options.reportsDirectory}"
-      ],
+      "outputs": ["{options.reportsDirectory}"],
       "options": {
         "reportsDirectory": "../../coverage/libs/shisha-shop-scraper"
       }
     }
-  },
-  "tags": [
-    "type:lib"
-  ]
+  }
 }

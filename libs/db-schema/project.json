@@ -3,33 +3,23 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/db-schema/prisma",
   "projectType": "library",
+  "tags": ["type:lib"],
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
-      "dependsOn": [
-        "^db:types"
-      ],
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "dependsOn": ["^db:types"],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libs/db-schema",
         "main": "libs/db-schema/src/index.ts",
         "tsConfig": "libs/db-schema/tsconfig.lib.json",
-        "assets": [
-          "libs/db-schema/*.md"
-        ]
+        "assets": ["libs/db-schema/*.md"]
       }
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
       "options": {
-        "lintFilePatterns": [
-          "libs/db-schema/**/*.ts"
-        ]
+        "lintFilePatterns": ["{projectRoot}/**/*.ts"]
       }
     },
     "db:migrate": {
@@ -41,7 +31,7 @@
       }
     },
     "db:types": {
-      "executor":"@nx-tools/nx-prisma:generate",
+      "executor": "@nx-tools/nx-prisma:generate",
       "options": {
         "schema": "libs/db-schema/src/prisma/schema.prisma",
         "tsConfig": "libs/db-schema/tsconfig.lib.json"
@@ -62,8 +52,5 @@
         "schema": "libs/db-schema/src/prisma/schema.prisma"
       }
     }
-  },
-  "tags": [
-    "type:lib"
-  ]
+  }
 }
