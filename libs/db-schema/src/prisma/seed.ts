@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { z } from 'zod';
+import tobaccoImportJson from './seed-data.json';
 
 const prisma = new PrismaClient();
 
@@ -22,7 +23,7 @@ const tobaccoImportSchema = z.object({
 type TobaccoImport = z.infer<typeof tobaccoImportSchema>;
 
 async function seed() {
-  const data = <TobaccoImport[]>await import('./seed-data.json');
+  const data = <TobaccoImport[]>tobaccoImportJson;
 
   for (const entry of data) {
     const importTobacco = tobaccoImportSchema.parse(entry);

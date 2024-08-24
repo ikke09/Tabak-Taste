@@ -34,7 +34,7 @@ app.get('/api', (req, res) => {
 app.get('/api/tobaccos', (req, res) => {
   const result: ApiResult = {
     status: 500,
-    error: new ApiError('/api/tobaccos', 'Search for Tobaccos failed'),
+    error: new ApiError('/api/tobaccos', 'Search for Tobaccos failed').message,
     data: null,
   };
 
@@ -49,7 +49,7 @@ app.get('/api/tobaccos', (req, res) => {
   tobaccoService.findTobaccosWithProducer(searchQuery).then((dbResponse) => {
     console.log('Service Response:', dbResponse);
     if (dbResponse instanceof ApiError) {
-      result.error = dbResponse;
+      result.error = dbResponse.message;
     } else {
       result.status = 200;
       result.data = dbResponse;

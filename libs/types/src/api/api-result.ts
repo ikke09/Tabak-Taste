@@ -4,7 +4,7 @@ import { ApiError } from './apiError';
 
 const apiResultSchema = z.object({
   status: z.number().default(200),
-  error: z.custom<ApiError>(),
+  error: z.string().optional(),
   data: z.array(TobaccoDTOSchema).nullable(),
 });
 
