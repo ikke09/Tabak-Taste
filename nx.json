@@ -64,5 +64,6 @@
       }
     }
   },
-  "useInferencePlugins": false
+  "useInferencePlugins": false,
+  "defaultBase": "main"
 }

@@ -14,7 +14,7 @@ const Result = ({ response }: ResultProps) => {
       {response.loading && <SearchProgress />}
       {(response.error || (response.result && response.result.error)) && (
         <Snackbar open={true} autoHideDuration={500}>
-          <Alert severity="error">{response.result!.error.message}</Alert>
+          <Alert severity="error">{response.result?.error}</Alert>
         </Snackbar>
       )}
       {!response.error &&

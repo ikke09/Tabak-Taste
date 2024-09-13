@@ -111,3 +111,7 @@ dist/**
 tmp/**
 **/.DS_STORE
 .vscode
+
+
+.nx/cache
+.nx/workspace-data

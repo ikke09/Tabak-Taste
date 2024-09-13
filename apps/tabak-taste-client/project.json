@@ -53,7 +53,8 @@
         "production": {
           "buildTarget": "tabak-taste-client:build:production"
         }
-      }
+      },
+      "dependsOn": ["build"]
     },
     "test": {
       "executor": "@nx/vite:test",

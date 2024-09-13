@@ -24,7 +24,7 @@ const App = () => {
   const searchTobaccos: SearchFunctionType = async (filter: string) => {
     let result: ApiResult = {
       status: 400,
-      error: new ApiError('/search', 'No filter given'),
+      error: 'No filter given',
       data: [],
     };
     if (!filter || filter.length === 0) return result;
